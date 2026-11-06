@@ -1,0 +1,12 @@
+capability:
+  id: stageshow
+  name: stageshow
+  version: 1.1.1
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: benjitaylor/skills/stageshow
+    repository: https://github.com/benjitaylor/skills.git
+    upstream_commit: 299140fafd08df55a9c234e610c3f64af3f45531
+    contribution: [Faux product UI generation, 7-step choreography workflow, Act timeline API, window and device geometry, camera motion, contact-sheet verification scripts]
+    integration_type: retained

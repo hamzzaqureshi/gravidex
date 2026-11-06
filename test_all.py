@@ -207,6 +207,18 @@ SUITES = [
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
         "cwd": _resolve_suite_cwd("asd-ste100"),
         "description": "ASD-STE100 Simplified Technical English & Karpathy 80% Engine"
+    },
+    {
+        "name": "karpathy-guidelines",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
+        "cwd": _resolve_suite_cwd("karpathy-guidelines"),
+        "description": "Karpathy Behavioral Guidelines & Pitfall Prevention Engine"
+    },
+    {
+        "name": "stageshow",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
+        "cwd": _resolve_suite_cwd("stageshow"),
+        "description": "Stageshow Faux UI Interaction & Cursor Choreography Engine"
     }
 ]
 

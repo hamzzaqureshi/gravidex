@@ -27,7 +27,7 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# All 19 Capabilities in Suite
+# All 21 Capabilities in Suite
 ALL_SKILLS=(
   "autonomous-agent-engineering"
   "backend-engineering"
@@ -42,12 +42,14 @@ ALL_SKILLS=(
   "awwwards"
   "boardui"
   "jury"
+  "karpathy-guidelines"
   "last30days"
   "lemo-opuscar"
   "motionsites-web-builder"
   "rev-engineer"
   "scrapling"
   "skillforge"
+  "stageshow"
 )
 
 # Bundles
@@ -68,12 +70,14 @@ BUNDLE_SPECIALISTS=(
   "awwwards"
   "boardui"
   "jury"
+  "karpathy-guidelines"
   "last30days"
   "lemo-opuscar"
   "motionsites-web-builder"
   "rev-engineer"
   "scrapling"
   "skillforge"
+  "stageshow"
 )
 
 BUNDLE_DESIGN=(
@@ -85,6 +89,7 @@ BUNDLE_DESIGN=(
   "jury"
   "motionsites-web-builder"
   "lemo-opuscar"
+  "stageshow"
 )
 
 BUNDLE_ENGINEERING=(
@@ -95,6 +100,7 @@ BUNDLE_ENGINEERING=(
   "technical-documentation"
   "agentshield"
   "asd-ste100"
+  "karpathy-guidelines"
   "rev-engineer"
   "scrapling"
   "skillforge"
@@ -143,8 +149,8 @@ ${BOLD}DESTINATION OPTIONS:${RESET}
     --custom DIR              Install into custom target directory
 
 ${BOLD}SKILL SELECTION OPTIONS:${RESET}
-    -a, --all                 Install all 19 capabilities without prompting
-    -b, --bundle NAME         Install bundle: 'curated' (8), 'specialists' (11), 'design' (8), 'engineering' (10)
+    -a, --all                 Install all 21 capabilities without prompting
+    -b, --bundle NAME         Install bundle: 'curated' (8), 'specialists' (13), 'design' (9), 'engineering' (11)
     -s, --skills LIST         Comma-separated list of skills to install
     -l, --list                List available capabilities and bundles
     -t, --test                Run test suite after installation
@@ -152,7 +158,7 @@ ${BOLD}SKILL SELECTION OPTIONS:${RESET}
     -h, --help                Show this help message
 
 ${BOLD}EXAMPLES:${RESET}
-    ./install.sh --all --global          # Install all 19 capabilities globally
+    ./install.sh --all --global          # Install all 21 capabilities globally
     ./install.sh --bundle curated -g     # Install 8 curated capability packs globally
     ./install.sh --bundle design -p      # Install design bundle into local project workspace
     ./install.sh                         # Launch guided interactive installer
@@ -161,7 +167,7 @@ EOF
 }
 
 list_skills() {
-  echo -e "${BOLD}Available Capabilities in Suite (19 total):${RESET}"
+  echo -e "${BOLD}Available Capabilities in Suite (${#ALL_SKILLS[@]} total):${RESET}"
   echo -e "------------------------------------------------------------------------"
   for i in "${!ALL_SKILLS[@]}"; do
     printf "  %2d.  ${CYAN}%-32s${RESET}\n" "$((i + 1))" "${ALL_SKILLS[$i]}"
@@ -317,11 +323,11 @@ if [ -z "$MODE" ] || [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
     # Step 2: Skill Scope
     if [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
       echo -e "\n${BOLD}Step 2: Choose capabilities to install:${RESET}\n"
-      echo -e "  ${BOLD}1)${RESET} ${GREEN}Install All 19 Capabilities${RESET}    ${DIM}[Recommended - Complete Suite]${RESET}"
+      echo -e "  ${BOLD}1)${RESET} ${GREEN}Install All 21 Capabilities${RESET}    ${DIM}[Recommended - Complete Suite]${RESET}"
       echo -e "  ${BOLD}2)${RESET} Curated Capability Packs     ${DIM}(8 packs: autonomous-agent, backend, design...)${RESET}"
-      echo -e "  ${BOLD}3)${RESET} Retained Specialists         ${DIM}(11 skills: agentshield, asd-ste100, boardui...)${RESET}"
-      echo -e "  ${BOLD}4)${RESET} Design & Frontend Bundle     ${DIM}(8 skills: design-systems, interface-design...)${RESET}"
-      echo -e "  ${BOLD}5)${RESET} Engineering Bundle           ${DIM}(10 skills: autonomous-agent, backend, quality...)${RESET}"
+      echo -e "  ${BOLD}3)${RESET} Retained Specialists         ${DIM}(${#BUNDLE_SPECIALISTS[@]} skills: agentshield, asd-ste100, boardui...)${RESET}"
+      echo -e "  ${BOLD}4)${RESET} Design & Frontend Bundle     ${DIM}(${#BUNDLE_DESIGN[@]} skills: design-systems, interface-design...)${RESET}"
+      echo -e "  ${BOLD}5)${RESET} Engineering Bundle           ${DIM}(${#BUNDLE_ENGINEERING[@]} skills: autonomous-agent, backend, quality...)${RESET}"
       echo -e "  ${BOLD}6)${RESET} Custom Pick                  ${DIM}(Select by comma-separated numbers, e.g. 1, 8, 15)${RESET}\n"
       read -rp "Select skills [1-6] (default: 1): " choice_scope
       choice_scope="${choice_scope:-1}"
@@ -366,7 +372,7 @@ if [ -z "$MODE" ] || [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
             fi
           done
           if [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
-            echo -e "${YELLOW}No valid skills selected. Defaulting to all 19 capabilities.${RESET}"
+            echo -e "${YELLOW}No valid skills selected. Defaulting to all ${#ALL_SKILLS[@]} capabilities.${RESET}"
             SELECTED_SKILLS=("${ALL_SKILLS[@]}")
           fi
           ;;

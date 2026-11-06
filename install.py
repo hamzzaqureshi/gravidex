@@ -19,7 +19,7 @@ import shutil
 import subprocess
 import sys
 
-# Active GraviDex Capabilities (8 Curated Packs + 11 Retained Specialists)
+# Active GraviDex Capabilities (8 Curated Packs + 13 Retained Specialists = 21 Total)
 SKILLS = [
     ("autonomous-agent-engineering", "Core agent engineering: Ponytail minimal diffs, Socratic gates, Court & Arena deliberation, Model Router"),
     ("backend-engineering", "Production REST APIs, Express/Next.js routes, cross-language typed error boundaries, and MCP servers"),
@@ -34,12 +34,14 @@ SKILLS = [
     ("awwwards", "Award-caliber website builder from one-line prompt: art direction, WebGL, page transitions, browser QA"),
     ("boardui", "React design system for agentic interfaces: 69 source components, 400+ semantic tokens, React Aria, Tailwind CSS v4"),
     ("jury", "Objective website scoring the way an Awwwards jury would: blind critic model, LCP/CLS/FPS/a11y audits, ranked fixes"),
+    ("karpathy-guidelines", "Behavioral guidelines to reduce common LLM coding mistakes: 4 core pillars and pitfall prevention"),
     ("last30days", "Real-time cross-platform social consensus, crowd pulse, and temporal research engine"),
     ("lemo-opuscar", "Algorithmic film directing and production in code: 67 styles, deterministic rendering, TTS voice, procedural audio"),
     ("motionsites-web-builder", "Award-level cinematic landing pages: 40 prompt examples, media shelf, 55+ motion recipes, screenshot QA"),
     ("rev-engineer", "Reverse engineering target router and deconstruction tools for native, web, and packaged binaries"),
     ("scrapling", "Adaptive web scraping, stealth browsing, Cloudflare Turnstile bypass, and concurrent spiders"),
     ("skillforge", "Autonomous agent skill lifecycle management, specification generation, regression testing, and doctor"),
+    ("stageshow", "Faux product UI, hero interaction loops, cursor arcs, device geometry, and contact-sheet verification"),
 ]
 
 BUNDLES = {
@@ -59,12 +61,14 @@ BUNDLES = {
         "awwwards",
         "boardui",
         "jury",
+        "karpathy-guidelines",
         "last30days",
         "lemo-opuscar",
         "motionsites-web-builder",
         "rev-engineer",
         "scrapling",
         "skillforge",
+        "stageshow",
     ],
     "design": [
         "design-systems",
@@ -75,6 +79,7 @@ BUNDLES = {
         "jury",
         "motionsites-web-builder",
         "lemo-opuscar",
+        "stageshow",
     ],
     "engineering": [
         "autonomous-agent-engineering",
@@ -84,6 +89,7 @@ BUNDLES = {
         "technical-documentation",
         "agentshield",
         "asd-ste100",
+        "karpathy-guidelines",
         "rev-engineer",
         "scrapling",
         "skillforge",
@@ -121,9 +127,9 @@ def list_skills():
         print(f"  {idx:>2}. {name:<30} - {desc}")
     print("\nCurated Bundles:")
     print(f"  - curated     (8 packs): {', '.join(BUNDLES['curated'])}")
-    print(f"  - specialists (11 skills): {', '.join(BUNDLES['specialists'])}")
-    print(f"  - design      (8 skills): {', '.join(BUNDLES['design'])}")
-    print(f"  - engineering (10 skills): {', '.join(BUNDLES['engineering'])}")
+    print(f"  - specialists ({len(BUNDLES['specialists'])} skills): {', '.join(BUNDLES['specialists'])}")
+    print(f"  - design      ({len(BUNDLES['design'])} skills): {', '.join(BUNDLES['design'])}")
+    print(f"  - engineering ({len(BUNDLES['engineering'])} skills): {', '.join(BUNDLES['engineering'])}")
     print("-" * 72)
     sys.exit(0)
 
@@ -189,11 +195,11 @@ def prompt_selection(all_names):
 
     # 2. Scope Selection
     print("\nStep 2: Choose capabilities to install:")
-    print("  1) Install All 19 Capabilities [Recommended - Complete Suite]")
+    print("  1) Install All 21 Capabilities [Recommended - Complete Suite]")
     print("  2) Curated Capability Packs    (8 packs: autonomous-agent, backend, design, frontend...)")
-    print("  3) Retained Specialists        (11 skills: agentshield, asd-ste100, boardui, jury...)")
-    print("  4) Design & Frontend Bundle    (8 skills: design-systems, interface-design, boardui...)")
-    print("  5) Engineering Bundle          (10 skills: autonomous-agent, backend, quality, security...)")
+    print(f"  3) Retained Specialists        ({len(BUNDLES['specialists'])} skills: agentshield, asd-ste100, boardui, jury...)")
+    print(f"  4) Design & Frontend Bundle    ({len(BUNDLES['design'])} skills: design-systems, interface-design, boardui...)")
+    print(f"  5) Engineering Bundle          ({len(BUNDLES['engineering'])} skills: autonomous-agent, backend, quality, security...)")
     print("  6) Custom Pick                 (select by numbers e.g. 1, 8, 15)\n")
 
     s_choice = input("Select skills [1-6] (default: 1): ").strip() or "1"

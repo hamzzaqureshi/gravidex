@@ -1,6 +1,6 @@
 # GraviDex
 
-[![Capabilities](https://img.shields.io/badge/capabilities-19%20active-success.svg)](./CAPABILITIES/capability-registry.yaml)
+[![Capabilities](https://img.shields.io/badge/capabilities-21%20active-success.svg)](./CAPABILITIES/capability-registry.yaml)
 [![Tests](https://img.shields.io/badge/tests-29%2F29%20passed%20(100%25)-brightgreen.svg)](./test_all.py)
 [![Dependencies](https://img.shields.io/badge/dependencies-zero%20(stdlib)-success.svg)](#system-requirements--prerequisites)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
@@ -16,7 +16,7 @@
 
 - [Overview](#overview)
 - [Architecture & Data Flow](#architecture--data-flow)
-- [The 19 Active Capabilities Matrix](#the-19-active-capabilities-matrix)
+- [The 21 Active Capabilities Matrix](#the-21-active-capabilities-matrix)
 - [System Requirements & Prerequisites](#system-requirements--prerequisites)
 - [Quickstart & Installation Tracks](#quickstart--installation-tracks)
   - [Interactive Setup (Recommended)](#interactive-setup-recommended)
@@ -35,7 +35,7 @@
 
 AI coding agents often struggle with four common failure modes: agreeing with broken code without executing verification tests, defaulting to cluttered visual interfaces with generic glow effects, introducing unnecessary third-party dependencies for single-line changes, and loading dozens of overlapping skills that exhaust the context window.
 
-GraviDex is designed for developers, engineering teams, and autonomous agents to solve these problems. It replaces hundreds of loose, conflicting skill files with a curated library of 19 modular capabilities (8 domain packs and 11 focused specialist tools). Each capability follows progressive disclosure: the agent loads a compact entry point first, reading deeper reference guides and executing sandboxed tools only when needed.
+GraviDex is designed for developers, engineering teams, and autonomous agents to solve these problems. It replaces hundreds of loose, conflicting skill files with a curated library of 21 modular capabilities (8 domain packs and 13 focused specialist tools). Each capability follows progressive disclosure: the agent loads a compact entry point first, reading deeper reference guides and executing sandboxed tools only when needed.
 
 ---
 
@@ -83,7 +83,7 @@ GraviDex organizes capabilities into two distinct scopes. When an agent receives
 ```text
 gravidex/
 ├── CAPABILITIES/                             # Active Capability Library
-│   ├── capability-registry.yaml              # Central registry of all 19 capabilities
+│   ├── capability-registry.yaml              # Central registry of all 21 capabilities
 │   ├── curated/                              # Curated domain packs (8 packs)
 │   │   ├── autonomous-agent-engineering/
 │   │   ├── backend-engineering/
@@ -93,35 +93,37 @@ gravidex/
 │   │   ├── quality-engineering/
 │   │   ├── security-audit/
 │   │   └── technical-documentation/
-│   └── retained-specialists/                 # Independent specialist tools (11 tools)
+│   └── retained-specialists/                 # Independent specialist tools (13 tools)
 │       ├── agentshield/
 │       ├── asd-ste100/
 │       ├── awwwards/
 │       ├── boardui/
 │       ├── jury/
+│       ├── karpathy-guidelines/
 │       ├── last30days/
 │       ├── lemo-opuscar/
 │       ├── motionsites-web-builder/
 │       ├── rev-engineer/
 │       ├── scrapling/
-│       └── skillforge/
+│       ├── skillforge/
+│       └── stageshow/
 ├── .agents/skills/                           # Pre-synchronized Antigravity workspace skills
 ├── .claude/skills/                           # Pre-synchronized Claude Code workspace skills
 ├── .opencode/skills/                         # Pre-synchronized OpenCode workspace skills
 ├── install.sh                                # Cross-platform shell installer
 ├── install.py                                # Standard library Python installer
 ├── package.py                                # Archive and release packager
-└── test_all.py                               # 29-suite parallel verification harness
+└── test_all.py                               # 31-suite parallel verification harness
 ```
 
 Capabilities are organized into two tiers:
 
 - Eight curated capability packs consolidate broad disciplines, including frontend architecture, backend services, and autonomous agent orchestration, into single entry points backed by structured reference guides.
-- Eleven retained independent specialists provide focused, single-purpose tools for security analysis, controlled language validation, web scraping, reverse engineering, and cinematic rendering.
+- Thirteen retained independent specialists provide focused, single-purpose tools for security analysis, controlled language validation, faux UI choreography, web scraping, reverse engineering, and cinematic rendering.
 
 ---
 
-## The 19 Active Capabilities Matrix
+## The 21 Active Capabilities Matrix
 
 | Capability ID | Category | Core Workflows & Integrated Disciplines |
 | :--- | :---: | :--- |
@@ -138,12 +140,14 @@ Capabilities are organized into two tiers:
 | **`awwwards`** | Specialist | Award-caliber site builder from one-line prompts. Art direction, typography, motion choreography, WebGL (OGL), page transitions, and browser QA to Awwwards Site of the Day bar. |
 | **`boardui`** | Specialist | React design system for agentic interfaces: 69 source components, 400+ semantic tokens, React Aria accessibility, Tailwind CSS v4, RTL/direction support, and agent design rules. |
 | **`jury`** | Specialist | Objective website scoring the way an Awwwards jury would. Blind critic model, automated audits (LCP, CLS, FPS, axe a11y, hover feedback, SEO), ranked fixes. |
+| **`karpathy-guidelines`** | Specialist | Behavioral guidelines to reduce common LLM coding mistakes: 4 core pillars (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) and pitfall prevention. |
 | **`last30days`** | Specialist | Real-time cross-platform social consensus, crowd pulse, and temporal research engine. |
 | **`lemo-opuscar`** | Specialist | Algorithmic film directing and production engine: 67 styles, Canvas/WebGL deterministic rendering, Kokoro TTS voice, procedural audio, and director manual. |
 | **`motionsites-web-builder`** | Specialist | Award-level cinematic landing page engine, 40 prompt examples, media shelf (50+ videos, 30 cutouts), 55+ motion recipes, and Playwright screenshot QA loop. |
 | **`rev-engineer`** | Specialist | Reverse engineering binary router and deconstruction tools for native, web, and packaged targets. |
 | **`scrapling`** | Specialist | Adaptive web scraping, stealth browsing, and anti-bot bypass. |
 | **`skillforge`** | Specialist | Autonomous agent skill lifecycle management, specification generation, regression testing, and ecosystem doctor. |
+| **`stageshow`** | Specialist | Faux product UI engine: interactive React components, cursor arcs, Dynamic Island/macOS chrome geometry, and contact-sheet frame verification. |
 
 ---
 
@@ -174,7 +178,7 @@ python3 install.py
 ```
 
 ### Track 1: Google Antigravity IDE
-Install all 19 capabilities globally into your Antigravity configuration directory (`~/.gemini/config/skills`):
+Install all 21 capabilities globally into your Antigravity configuration directory (`~/.gemini/config/skills`):
 
 ```bash
 ./install.sh --all --global

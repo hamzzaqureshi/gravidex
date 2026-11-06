@@ -2,7 +2,7 @@
 """Distribution Packager for GraviDex Capabilities Suite.
 
 Builds clean, self-contained, ready-to-share release archives and plugin bundles:
-  - dist/gravidex.zip (Universal ZIP archive containing all 19 capabilities + installer)
+  - dist/gravidex.zip (Universal ZIP archive containing all 21 capabilities + installer)
   - dist/gravidex.tar.gz (Gzip tarball)
   - dist/gravidex-pack/ (Direct Antigravity Plugin structure)
   - dist/checksums.sha256 (Verification checksums)
@@ -67,18 +67,20 @@ SKILLS = [
     "quality-engineering",
     "security-audit",
     "technical-documentation",
-    # 11 Retained Independent Specialists
+    # 13 Retained Independent Specialists
     "agentshield",
     "asd-ste100",
     "awwwards",
     "boardui",
     "jury",
+    "karpathy-guidelines",
     "last30days",
     "lemo-opuscar",
     "motionsites-web-builder",
     "rev-engineer",
     "scrapling",
     "skillforge",
+    "stageshow",
 ]
 
 CORE_FILES = [
@@ -190,7 +192,7 @@ def make_plugin_bundle(plugin_dir: Path):
     # Manifest for Antigravity Plugin
     manifest = {
         "name": "gravidex-pack",
-        "description": "Curated suite of GraviDex modular AI coding capabilities (19 skills)",
+        "description": "Curated suite of GraviDex modular AI coding capabilities (21 skills)",
         "version": "2.0.0",
         "author": "GraviDex Project",
         "skills": SKILLS

@@ -2,7 +2,7 @@
 """GraviDex Capability Verification & Governance Test Suite.
 
 Verifies:
-  1. Complete capability presence (8 curated packs + 11 retained specialists = 19 total).
+  1. Complete capability presence (8 curated packs + 13 retained specialists = 21 total).
   2. SKILL.md validity and required frontmatter (name, description, name matches directory).
   3. Valid provenance.yaml mapping to preserved upstream sources.
   4. Progressive disclosure references structure in curated capability packs.
@@ -43,12 +43,14 @@ EXPECTED_RETAINED = [
     "awwwards",
     "boardui",
     "jury",
+    "karpathy-guidelines",
     "last30days",
     "lemo-opuscar",
     "motionsites-web-builder",
     "rev-engineer",
     "scrapling",
     "skillforge",
+    "stageshow",
 ]
 
 # Strict emoji regex
@@ -87,10 +89,10 @@ class TestGravidexCapabilities(unittest.TestCase):
         self.assertEqual(found, sorted(EXPECTED_CURATED))
 
     def test_retained_specialist_count_and_names(self):
-        """Assert exactly 11 retained specialists exist with expected names."""
+        """Assert exactly 13 retained specialists exist with expected names."""
         self.assertTrue(RETAINED_DIR.is_dir(), "CAPABILITIES/retained-specialists directory must exist")
         found = sorted([d.name for d in RETAINED_DIR.iterdir() if d.is_dir()])
-        self.assertEqual(len(found), 11, f"Expected 11 retained specialists, found {len(found)}")
+        self.assertEqual(len(found), 13, f"Expected 13 retained specialists, found {len(found)}")
         self.assertEqual(found, sorted(EXPECTED_RETAINED))
 
     def test_skill_md_validity_all_capabilities(self):
@@ -172,10 +174,10 @@ class TestGravidexCapabilities(unittest.TestCase):
                     self.assertIsNone(match, f"Dangerous pipe-to-shell installer detected in {p}")
 
     def test_capability_registry_yaml_consistency(self):
-        """Assert capability-registry.yaml lists all 19 capabilities."""
+        """Assert capability-registry.yaml lists all 21 capabilities."""
         self.assertTrue(CAP_REGISTRY_FILE.is_file(), "capability-registry.yaml must exist")
         content = CAP_REGISTRY_FILE.read_text(encoding="utf-8")
-        self.assertIn("total_capabilities: 19", content)
+        self.assertIn("total_capabilities: 21", content)
         for name in EXPECTED_CURATED + EXPECTED_RETAINED:
             self.assertIn(f"id: {name}", content, f"Capability {name} missing from registry")
 

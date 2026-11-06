@@ -1,8 +1,8 @@
 version: "1.0.0"
-last_updated: "2026-11-06T19:50:00Z"
-total_capabilities: 19
+last_updated: "2026-11-07T01:00:00Z"
+total_capabilities: 21
 curated_packs_count: 8
-retained_specialists_count: 11
+retained_specialists_count: 13
 capabilities:
   - id: autonomous-agent-engineering
     name: "autonomous-agent-engineering"
@@ -136,4 +136,18 @@ capabilities:
     description: "Use when English text must be parsed without ambiguity by AI agents or downstream systems (tool descriptions, error messages, inter-agent instructions, system prompts, schemas, ADRs) or when explaining technical concepts with minimum cognitive load. Enforces ASD-STE100 (Simplified Technical English, Issue 9) or Andrej Karpathy's 80% Pragmatic Mode: short sentences, active voice, approved vocabulary, max 3-word noun clusters, no progressive/passive forms, and 4 cognitive modalities (text, Mermaid diagrams, interactive HTML, video scripts)."
     canonical_path: CAPABILITIES/retained-specialists/asd-ste100
     sources_count: 2
+    status: candidate
+  - id: karpathy-guidelines
+    name: "karpathy-guidelines"
+    type: retained-specialist
+    description: "Behavioral guidelines to reduce common LLM coding mistakes, derived from Andrej Karpathy observations. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria."
+    canonical_path: CAPABILITIES/retained-specialists/karpathy-guidelines
+    sources_count: 1
+    status: candidate
+  - id: stageshow
+    name: "stageshow"
+    type: retained-specialist
+    description: "Build faux product UI that looks like a real product, as a still illustration or an animated demo with a cursor. Browser and app windows, dashboards, phones, notifications, terminals, bento grids and cursor walkthroughs, framed, masked and cropped the way a marketing page, feature card or docs hero needs them."
+    canonical_path: CAPABILITIES/retained-specialists/stageshow
+    sources_count: 1
     status: candidate

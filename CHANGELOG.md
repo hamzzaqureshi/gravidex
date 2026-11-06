@@ -5,6 +5,25 @@ The format is based on Keep a Changelog.
 
 ---
 
+## [2.2.0] - 2026-11-07
+
+### Capabilities Expansion: Karpathy Guidelines & Stageshow Faux UI
+- **Active Capabilities Suite (21 Active Capabilities):**
+  - Expanded from 19 to 21 active capabilities (8 Curated Capability Packs + 13 Retained Independent Specialists).
+  - Integrated 2 new Retained Specialists:
+    - `karpathy-guidelines`: Behavioral guidelines derived from Andrej Karpathy's observations on LLM coding pitfalls. Enforces 4 core pillars: Think Before Coding, Simplicity First, Surgical Changes, and Goal-Driven Execution. Includes sanitized reference examples, Claude Code behavioral integration, and Cursor IDE rule definitions.
+    - `stageshow`: Benji Taylor's faux product UI engine. Features deterministic React interaction choreography (`Act<S>` API), device geometry for macOS/iOS Dynamic Island/browsers, realistic cursor arcs, and automated contact-sheet frame verification scripts (`film.mjs`, `jumps.mjs`, `layout.mjs`).
+- **Zero-Emoji Governance Enforcement:**
+  - Sanitized all upstream emoji characters across code, fixtures, and documentation to strictly uphold the zero-emoji ban.
+- **Unified Test Harness:**
+  - Expanded from 29 to 31 parallel test suites with high-performance sandboxing (`test_karpathy_guidelines.py`, `test_stageshow.py`).
+  - 100% test pass rate across all suites.
+- **Installer & Registry Updates:**
+  - Updated `install.py` and `install.sh` to support all 21 capabilities across interactive and automated modes.
+  - Synchronized `CAPABILITIES/capability-registry.yaml`, `.agents/skills`, `.claude/skills`, and `.opencode/skills`.
+
+---
+
 ## [2.1.0] - 2026-11-06
 
 ### Capabilities Expansion & Distribution Architecture
