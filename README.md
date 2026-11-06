@@ -15,7 +15,7 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Architecture & Organization](#architecture--organization)
+- [Architecture & Data Flow](#architecture--data-flow)
 - [The 19 Active Capabilities Matrix](#the-19-active-capabilities-matrix)
 - [System Requirements & Prerequisites](#system-requirements--prerequisites)
 - [Quickstart & Installation Tracks](#quickstart--installation-tracks)
@@ -33,56 +33,91 @@
 
 ## Overview
 
-AI coding agents often struggle with four common failure modes:
-1. **Sycophancy & Hallucination**: Agreeing with flawed designs and claiming tasks are finished without running real tests on disk.
-2. **Visual Slop**: Defaulting to generic purple/cyan glow effects, floating cards, and uncalibrated animations.
-3. **Over-Engineering**: Introducing heavy third-party dependencies and multi-file refactors for single-line changes.
-4. **Context Proliferation**: Loading dozens of overlapping, conflicting, and redundant individual skills into the agent context window.
+AI coding agents often struggle with four common failure modes: agreeing with broken code without executing verification tests, defaulting to cluttered visual interfaces with generic glow effects, introducing unnecessary third-party dependencies for single-line changes, and loading dozens of overlapping skills that exhaust the context window.
 
-**GraviDex** solves these challenges through a curated, modular capability architecture. It consolidates fragmented individual skills into **19 cohesive capabilities** (8 Curated Capability Packs + 11 Retained Independent Specialists), slashing context discovery overhead while providing battle-tested workflows and deterministic governance.
+GraviDex is designed for developers, engineering teams, and autonomous agents to solve these problems. It replaces hundreds of loose, conflicting skill files with a curated library of 19 modular capabilities (8 domain packs and 11 focused specialist tools). Each capability follows progressive disclosure: the agent loads a compact entry point first, reading deeper reference guides and executing sandboxed tools only when needed.
 
 ---
 
-## Architecture & Organization
+## Architecture & Data Flow
 
-GraviDex organizes capabilities into two distinct scopes:
+GraviDex organizes capabilities into two distinct scopes. When an agent receives a prompt, it resolves the required capability from the central registry, reviews the compact guidelines in `SKILL.md`, and pulls targeted references on demand:
+
+```text
++-------------------------------------------------------------------------+
+|                              USER PROMPT                                |
++-------------------------------------------------------------------------+
+                                     |
+                                     v
++-------------------------------------------------------------------------+
+|                  AGENT HARNESS (Antigravity / Claude / OpenCode)        |
++-------------------------------------------------------------------------+
+                                     |
+                    Resolves capability from registry
+                                     |
+                                     v
++-------------------------------------------------------------------------+
+|                          GRAVIDEX CAPABILITIES                          |
+|                                                                         |
+|  Curated Capability Packs (8)          Retained Specialists (11)        |
+|  ├── autonomous-agent-engineering      ├── agentshield   ├── rev-engineer|
+|  ├── backend-engineering               ├── asd-ste100    ├── scrapling   |
+|  ├── design-systems                    ├── awwwards      ├── skillforge  |
+|  ├── frontend-engineering              ├── boardui                       |
+|  ├── interface-design                  ├── jury                          |
+|  ├── quality-engineering               ├── last30days                    |
+|  ├── security-audit                    ├── lemo-opuscar                  |
+|  └── technical-documentation           └── motionsites-web-builder       |
++-------------------------------------------------------------------------+
+         |                                           |
+         v                                           v
++-----------------------------+             +-----------------------------+
+|   Progressive Disclosure    |             |   Pure Python / Zero Pip    |
+|   SKILL.md  ──▶ references/  |             |   Deterministic execution   |
+|             ──▶ scripts/    |             |   Verified by test_all.py   |
++-----------------------------+             +-----------------------------+
+```
+
+### Directory Structure
 
 ```text
 gravidex/
-|-- CAPABILITIES/                             # Active Capability Library
-|   |-- capability-registry.yaml              # Central registry of 19 capabilities
-|   |-- curated/                              # Curated Capability Packs (8 packs)
-|   |   |-- autonomous-agent-engineering/
-|   |   |-- backend-engineering/
-|   |   |-- design-systems/
-|   |   |-- frontend-engineering/
-|   |   |-- interface-design/
-|   |   |-- quality-engineering/
-|   |   |-- security-audit/
-|   |   `-- technical-documentation/
-|   `-- retained-specialists/                 # Independent Specialist Capabilities (11 skills)
-|       |-- agentshield/
-|       |-- asd-ste100/
-|       |-- awwwards/
-|       |-- boardui/
-|       |-- jury/
-|       |-- last30days/
-|       |-- lemo-opuscar/
-|       |-- motionsites-web-builder/
-|       |-- rev-engineer/
-|       |-- scrapling/
-|       `-- skillforge/
-|-- .agents/skills/                           # Pre-synchronized Antigravity Workspace Skills
-|-- .claude/skills/                           # Pre-synchronized Claude Code Workspace Skills
-|-- .opencode/skills/                         # Pre-synchronized OpenCode Workspace Skills
-|-- install.sh                                # Universal cross-platform shell installer
-|-- install.py                                # Pure Python standard library installer
-|-- package.py                                # Release archiver & distribution packager
-`-- test_all.py                               # 29-suite parallel verification harness
+├── CAPABILITIES/                             # Active Capability Library
+│   ├── capability-registry.yaml              # Central registry of all 19 capabilities
+│   ├── curated/                              # Curated domain packs (8 packs)
+│   │   ├── autonomous-agent-engineering/
+│   │   ├── backend-engineering/
+│   │   ├── design-systems/
+│   │   ├── frontend-engineering/
+│   │   ├── interface-design/
+│   │   ├── quality-engineering/
+│   │   ├── security-audit/
+│   │   └── technical-documentation/
+│   └── retained-specialists/                 # Independent specialist tools (11 tools)
+│       ├── agentshield/
+│       ├── asd-ste100/
+│       ├── awwwards/
+│       ├── boardui/
+│       ├── jury/
+│       ├── last30days/
+│       ├── lemo-opuscar/
+│       ├── motionsites-web-builder/
+│       ├── rev-engineer/
+│       ├── scrapling/
+│       └── skillforge/
+├── .agents/skills/                           # Pre-synchronized Antigravity workspace skills
+├── .claude/skills/                           # Pre-synchronized Claude Code workspace skills
+├── .opencode/skills/                         # Pre-synchronized OpenCode workspace skills
+├── install.sh                                # Cross-platform shell installer
+├── install.py                                # Standard library Python installer
+├── package.py                                # Archive and release packager
+└── test_all.py                               # 29-suite parallel verification harness
 ```
 
-- **Curated Capability Packs (8):** Comprehensive engineering disciplines combining multiple specialized tools into progressive disclosure entry points with structured references.
-- **Retained Independent Specialists (11):** High-utility, stand-alone tools for security audits, scraping, controlled language, reverse engineering, design systems, and cinematic production.
+Capabilities are organized into two tiers:
+
+- Eight curated capability packs consolidate broad disciplines, including frontend architecture, backend services, and autonomous agent orchestration, into single entry points backed by structured reference guides.
+- Eleven retained independent specialists provide focused, single-purpose tools for security analysis, controlled language validation, web scraping, reverse engineering, and cinematic rendering.
 
 ---
 
