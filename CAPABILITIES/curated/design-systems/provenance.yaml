@@ -1,0 +1,26 @@
+capability:
+  id: design-systems
+  name: Design Systems
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: hamzzaqureshi-gravidex/designs
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [67 design system themes, token scales, theme foundations]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/sanzo-wada-colors
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [historical Japanese palettes, WCAG matrix, pigment tokens]
+    integration_type: extracted
+  - source_id: hamzzaqureshi-gravidex/logo-design
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [vector logo construction, optical refinement, 16px testing]
+    integration_type: extracted
+  - source_id: hamzzaqureshi-gravidex/diagram-design
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [45 editorial diagram specifications, HTML/SVG templates]
+    integration_type: reference

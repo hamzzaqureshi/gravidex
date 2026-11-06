@@ -1,0 +1,12 @@
+capability:
+  id: skillforge
+  name: skillforge
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: tripleyak-skillforge/skillforge
+    repository: https://github.com/tripleyak/SkillForge.git
+    upstream_commit: 4fc8bb486aa8edca12facbf02b53aa1ada76a4a9
+    contribution: [Meta-skill router, baseline RED/GREEN testing, regression evals, and ecosystem doctor]
+    integration_type: retained

@@ -1,0 +1,13 @@
+capability:
+  id: awwwards
+  name: awwwards
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: juliobsz-skills/awwwards
+    repository: https://github.com/juliobsz/skills.git
+    upstream_commit: add880bd6ec9f5592a1482846fc0dd282c9161bc
+    contribution: [award-caliber website builder, art direction, motion choreography, WebGL, QA loop]
+    integration_type: retained
+

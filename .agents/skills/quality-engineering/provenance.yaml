@@ -1,0 +1,36 @@
+capability:
+  id: quality-engineering
+  name: Quality Engineering
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: affaan-m-ecc/tdd-workflow
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [TDD methodology, AAA pattern, test coverage standards]
+    integration_type: merged
+  - source_id: affaan-m-ecc/e2e-testing
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [Playwright E2E testing, Page Object Model, flaky test mitigation]
+    integration_type: merged
+  - source_id: affaan-m-ecc/eval-harness
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [eval-driven development, benchmark testing]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/rigor
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [empirical verification gates, grounding ladder, task ledgers]
+    integration_type: merged
+  - source_id: affaan-m-ecc/verification-loop
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [pre-completion verification checklists]
+    integration_type: merged
+  - source_id: affaan-m-ecc/delivery-gate
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [mechanical stop hook preventing rationalization]
+    integration_type: merged

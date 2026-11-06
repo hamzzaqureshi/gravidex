@@ -1,0 +1,13 @@
+capability:
+  id: lemo-opuscar
+  name: lemo-opuscar
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: lemomo-opuscar/lemo-opuscar
+    repository: https://github.com/lemomo-ai/lemo-opuscar.git
+    upstream_commit: bebbbe1aa92a3cb4bb6f83500e61b23a17d1aa00
+    contribution: [Direct and produce short films in code, 67 film styles, algorithmic frame-by-frame rendering, voice and music scoring, director guidelines]
+    integration_type: retained
+

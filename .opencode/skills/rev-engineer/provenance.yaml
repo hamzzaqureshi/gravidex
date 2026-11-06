@@ -1,0 +1,12 @@
+capability:
+  id: rev-engineer
+  name: rev-engineer
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: hamzzaqureshi-gravidex/rev-engineer
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [REA reverse engineering for native binaries, web, and packaged targets]
+    integration_type: retained

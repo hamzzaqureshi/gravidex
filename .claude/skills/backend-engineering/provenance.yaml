@@ -1,0 +1,26 @@
+capability:
+  id: backend-engineering
+  name: Backend Engineering
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: affaan-m-ecc/api-design
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [REST API design, status codes, pagination, filtering]
+    integration_type: merged
+  - source_id: affaan-m-ecc/backend-patterns
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [Node.js, Express, Next.js API routes, data access patterns]
+    integration_type: merged
+  - source_id: affaan-m-ecc/error-handling
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [typed error boundaries, retries, circuit breakers across TS/Python/Go]
+    integration_type: merged
+  - source_id: affaan-m-ecc/mcp-server-patterns
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [MCP server development, tools, resources, prompts, Zod validation]
+    integration_type: merged

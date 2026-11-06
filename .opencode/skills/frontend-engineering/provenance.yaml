@@ -1,0 +1,25 @@
+capability:
+  id: frontend-engineering
+  name: Frontend Engineering
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: affaan-m-ecc/frontend-patterns
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution:
+      - React and Next.js component patterns
+      - State architecture and performance optimization
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/threeui
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution:
+      - Three.js WebGL component intelligence and shader lifecycle
+    integration_type: extracted
+  - source_id: affaan-m-ecc/browser-qa
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution:
+      - Automated browser smoke checks and visual regression testing
+    integration_type: merged

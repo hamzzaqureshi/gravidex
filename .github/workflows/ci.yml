@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Test Suite (21 Skills)
+    name: GraviDex Capabilities Test Suite
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,11 +32,11 @@ jobs:
         run: |
           python3 -B test_all.py
 
-      - name: Audit README Quality
+      - name: Run GraviDex Capability Validation
         run: |
-          python3 -B writing-readme/scripts/readme_audit.py README.md
+          python3 -B -m unittest discover -s TESTS/capability-tests
+          python3 -B scripts/validate.py --capabilities
 
       - name: Verify Packaging Engine
         run: |
           python3 -B package.py
-

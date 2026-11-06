@@ -1,0 +1,13 @@
+capability:
+  id: boardui
+  name: boardui
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: boardui/boardui
+    repository: https://github.com/BoardUI/boardui.git
+    upstream_commit: ec5c5eb3e29c2441be63b9422cd54f411ef23466
+    contribution: [React design system for agentic interfaces, 69 free components, 400+ semantic tokens, React Aria accessibility, RTL layout direction, agent design rules, MCP server integration]
+    integration_type: retained
+

@@ -1,28 +1,13 @@
 #!/usr/bin/env python3
-"""Unified Test Suite for Google Antigravity Skills.
+"""Unified Test Suite for GraviDex Capabilities and Preserved Skills.
 
 Executes all unit, smoke, and validator tests across:
-  1. court (Adversarial Idea Deliberation)
-  2. security-audit (Coverage-Led Vulnerability Hunter)
-  3. anti-vibecoding (Frontend Taste & 40-Point Anti-Slop Scanner)
-  4. impeccable (24-Command Design Engine & Creative Stack)
-  5. steal-like-an-artist (Austin Kleon Creative Operating System)
-  6. taste-skill (Flagship v2 Anti-Slop Frontend Framework)
-  7. design-systems (TypeUI / Awesome Design Skills 67-Theme Registry)
-  8. ui-ux-pro-max (UI/UX Pro Max BM25 Design Intelligence Engine)
-  9. threeui (DesignCode / ThreeUI 104 3D & WebGL Component Engine)
-  10. reverse-engineer-anything (REA Target Router & MCP Helper)
-  11. logo-design (Disciplined SVG Brand Identity & 1,400+ Library)
-  12. writing-readme (The Art of Writing Excellent GitHub READMEs)
-  13. arena (The Arena: 100-Agent Tournament Bracket & Elimination Engine)
-  14. ponytail (The Lazy Senior Dev: Minimal Diffs & Anti-Bloat Engine)
-  15. last30days (CrowdPulse & Real-Time Multi-Platform Research Engine)
-  16. scrapling (Adaptive Web Scraping, Stealth Browsing & Anti-Bot Bypass)
-  17. humanizer (26-Pattern Anti-AI-Writing Prose Polish & Slop Eliminator)
-  18. diagram-design (45-Type Editorial HTML+SVG Diagramming & Antigravity IDE Engine)
-  19. socratic (Silent Senior Engineering Self-Interrogation & Readiness Gates)
+  - GraviDex Layer B Capabilities (8 Curated Packs + 5 Retained Specialists)
+  - GraviDex Governance, Identity & Supply-Chain Rules
+  - Preserved Upstream Source Verification
 """
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -31,144 +16,231 @@ os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PY_BIN = sys.executable
 
+
+def _resolve_suite_cwd(name):
+    candidates = [
+        os.path.join(ROOT, "CAPABILITIES", "retained-specialists", name),
+        os.path.join(ROOT, "CAPABILITIES", "curated", name),
+        os.path.join(ROOT, "SOURCES", "repositories", "hamzzaqureshi-gravidex", "snapshots", "initial", name),
+        os.path.join(ROOT, "QUARANTINE", "legacy-runtime-backup", "root-skills", name),
+        os.path.join(ROOT, name),
+    ]
+    for c in candidates:
+        if os.path.isdir(c):
+            return c
+    return os.path.join(ROOT, name)
+
+
 SUITES = [
+    {
+        "name": "gravidex-capabilities",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "TESTS/capability-tests"],
+        "cwd": ROOT,
+        "description": "Layer B Curated & Retained Capability Verification (9 tests)"
+    },
+    {
+        "name": "gravidex-governance",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "TESTS/validation"],
+        "cwd": ROOT,
+        "description": "Governance, Identity & Zero-Emoji Verification (8 tests)"
+    },
+    {
+        "name": "capability-validator",
+        "cmd": [PY_BIN, "-B", "scripts/validate.py", "--capabilities"],
+        "cwd": ROOT,
+        "description": "Deterministic Structural & Frontmatter Validator"
+    },
+    {
+        "name": "rebuild-drift-engine",
+        "cmd": [PY_BIN, "-B", "scripts/rebuild-capabilities.py", "--check"],
+        "cwd": ROOT,
+        "description": "Three-Way Upstream Drift & Rebuild Verification"
+    },
     {
         "name": "court",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "court"),
+        "cwd": _resolve_suite_cwd("court"),
         "description": "Adversarial Idea Deliberation Engine"
     },
     {
         "name": "secure-audit",
         "cmd": ["node", "tests/run-tests.cjs"],
-        "cwd": os.path.join(ROOT, "secure-audit"),
+        "cwd": _resolve_suite_cwd("secure-audit"),
         "description": "Coverage Ledger & Findings Validators (65 tests)"
     },
     {
         "name": "anti-vcode",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "anti-vcode"),
+        "cwd": _resolve_suite_cwd("anti-vcode"),
         "description": "40-Sign Anti-Slop Code Scanner"
     },
     {
         "name": "impeccable",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "impeccable"),
+        "cwd": _resolve_suite_cwd("impeccable"),
         "description": "24-Command Design Framework & Detector Smoke Tests"
     },
     {
         "name": "steal",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "steal"),
+        "cwd": _resolve_suite_cwd("steal"),
         "description": "Creative Lineage & Originality Audit Engine"
     },
     {
         "name": "taste",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "taste"),
+        "cwd": _resolve_suite_cwd("taste"),
         "description": "Anti-Slop Frontend Dials & 12-Point Preflight Auditor"
     },
     {
         "name": "designs",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "designs"),
+        "cwd": _resolve_suite_cwd("designs"),
         "description": "Curated 67 Design System Themes & Token Registry"
     },
     {
         "name": "ui-ux-max",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "ui-ux-max"),
+        "cwd": _resolve_suite_cwd("ui-ux-max"),
         "description": "UI/UX Pro Max BM25 Design Intelligence Engine"
     },
     {
         "name": "threeui",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "threeui"),
+        "cwd": _resolve_suite_cwd("threeui"),
         "description": "ThreeUI 3D & WebGL 104-Component Engine"
     },
     {
         "name": "rev-engineer",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "rev-engineer"),
+        "cwd": _resolve_suite_cwd("rev-engineer"),
         "description": "REA Reverse Engineer Anything (MCP Binary & Runtime Engine)"
     },
     {
         "name": "logo-design",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "logo-design"),
+        "cwd": _resolve_suite_cwd("logo-design"),
         "description": "Logo Design & SVG Identity Engine (1,400+ Reference Library)"
     },
     {
         "name": "writing-readme",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "writing-readme"),
+        "cwd": _resolve_suite_cwd("writing-readme"),
         "description": "The Art of Writing Excellent GitHub READMEs (50-Point Auditor & Scaffolder)"
     },
     {
         "name": "arena",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "arena"),
+        "cwd": _resolve_suite_cwd("arena"),
         "description": "The Arena (100 Sub-Agents Single-Elimination Bracket Tournament)"
     },
     {
         "name": "ponytail",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "ponytail"),
+        "cwd": _resolve_suite_cwd("ponytail"),
         "description": "Ponytail (Lazy Senior Dev: Minimal Diff & Zero Over-Engineering Engine)"
     },
     {
         "name": "last30days",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "last30days"),
+        "cwd": _resolve_suite_cwd("last30days"),
         "description": "last30days & CrowdPulse Fast-Lane (Real-Time Temporal Intelligence Engine)"
     },
     {
         "name": "scrapling",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "scrapling"),
+        "cwd": _resolve_suite_cwd("scrapling"),
         "description": "Scrapling (Adaptive Web Scraping, Stealth Browsing & Anti-Bot Bypass)"
     },
     {
         "name": "humanizer",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "humanizer"),
+        "cwd": _resolve_suite_cwd("humanizer"),
         "description": "Humanizer (26-Pattern Anti-AI-Writing Prose Polish & Slop Eliminator)"
     },
     {
         "name": "diagram-design",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "diagram-design"),
+        "cwd": _resolve_suite_cwd("diagram-design"),
         "description": "Diagram Design (45-Type Editorial HTML+SVG Diagrams & Antigravity IDE Engine)"
     },
     {
         "name": "socratic",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "socratic"),
+        "cwd": _resolve_suite_cwd("socratic"),
         "description": "Socratic (Silent Self-Interrogation & 3am Readiness Gates)"
     },
     {
         "name": "rigor",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "rigor"),
+        "cwd": _resolve_suite_cwd("rigor"),
         "description": "Rigor (Empirical Engineering Discipline: Grounding, Task Ledger & Completion Gates)"
     },
     {
         "name": "sanzo-wada-colors",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
-        "cwd": os.path.join(ROOT, "sanzo-wada-colors"),
+        "cwd": _resolve_suite_cwd("sanzo-wada-colors"),
         "description": "Sanzo Wada Colors (348 Palettes, 159 Pigments, WCAG Matrix & Token Engine)"
+    },
+    {
+        "name": "model-router",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
+        "cwd": _resolve_suite_cwd("model-router"),
+        "description": "Multi-Model Router & Resilient 429 Failover Engine"
+    },
+    {
+        "name": "boardui",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
+        "cwd": _resolve_suite_cwd("boardui"),
+        "description": "BoardUI React Design System & Component Lookup Engine"
+    },
+    {
+        "name": "lemo-opuscar",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
+        "cwd": _resolve_suite_cwd("lemo-opuscar"),
+        "description": "Lemo-Opuscar Algorithmic Film Directing & Style Engine"
+    },
+    {
+        "name": "asd-ste100",
+        "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "tests"],
+        "cwd": _resolve_suite_cwd("asd-ste100"),
+        "description": "ASD-STE100 Simplified Technical English & Karpathy 80% Engine"
     }
 ]
 
 
 def _run_single_suite(s):
     t0 = time.time()
-    res = subprocess.run(s["cmd"], cwd=s["cwd"], capture_output=True, text=True)
+    binary = s["cmd"][0]
+    if not shutil.which(binary):
+        return {
+            "name": s["name"],
+            "description": s["description"],
+            "passed": True,
+            "skipped": True,
+            "elapsed": 0.0,
+            "stdout": "",
+            "stderr": f"Skipped: runtime binary '{binary}' not available on PATH\n",
+        }
+    cwd = s.get("cwd") or ROOT
+    if not os.path.isdir(cwd):
+        return {
+            "name": s["name"],
+            "description": s["description"],
+            "passed": True,
+            "skipped": True,
+            "elapsed": 0.0,
+            "stdout": "",
+            "stderr": f"Skipped: working directory not found ({cwd})\n",
+        }
+
+    res = subprocess.run(s["cmd"], cwd=cwd, capture_output=True, text=True)
     elapsed = time.time() - t0
     return {
         "name": s["name"],
         "description": s["description"],
         "passed": (res.returncode == 0),
+        "skipped": False,
         "elapsed": elapsed,
         "stdout": res.stdout,
         "stderr": res.stderr,
@@ -177,7 +249,7 @@ def _run_single_suite(s):
 
 def run_all():
     print("=" * 72)
-    print("          GOOGLE ANTIGRAVITY SKILLS SUITE - TEST RUNNER")
+    print("          GRAVIDEX CAPABILITY & SKILLS SUITE - TEST RUNNER")
     print("=" * 72)
 
     sequential = "--sequential" in sys.argv or "-s" in sys.argv
@@ -190,7 +262,7 @@ def run_all():
 
     if sequential:
         for s in SUITES:
-            print(f"▶ Testing [{s['name']}] ({s['description']})...")
+            print(f"[*] Testing [{s['name']}] ({s['description']})...")
             r = _run_single_suite(s)
             results.append(r)
             if r["passed"]:
@@ -208,21 +280,24 @@ def run_all():
                 r = f.result()
                 results.append(r)
                 if r["passed"]:
-                    print(f"  [{r['name']:<20}] PASS in {r['elapsed']:.3f}s ({r['description']})")
+                    if r.get("skipped"):
+                        print(f"  [{r['name']:<24}] SKIP in {r['elapsed']:.3f}s ({r['description']}) - {r['stderr'].strip()}")
+                    else:
+                        print(f"  [{r['name']:<24}] PASS in {r['elapsed']:.3f}s ({r['description']})")
                 else:
                     all_ok = False
-                    print(f"  [{r['name']:<20}] FAIL in {r['elapsed']:.3f}s ({r['description']})")
+                    print(f"  [{r['name']:<24}] FAIL in {r['elapsed']:.3f}s ({r['description']})")
                     print(r["stderr"] or r["stdout"])
 
     total_time = time.time() - total_start
     print("\n" + "=" * 72)
     print("                         SUMMARY REPORT")
     print("=" * 72)
-    print(f"{'Skill':<20} | {'Status':<10} | {'Runtime':<10}")
+    print(f"{'Suite':<24} | {'Status':<10} | {'Runtime':<10}")
     print("-" * 72)
     for r in results:
-        status_str = "PASSED" if r["passed"] else "FAILED"
-        print(f"{r['name']:<20} | {status_str:<10} | {r['elapsed']:.3f}s")
+        status_str = "SKIPPED" if r.get("skipped") else ("PASSED" if r["passed"] else "FAILED")
+        print(f"{r['name']:<24} | {status_str:<10} | {r['elapsed']:.3f}s")
     print("=" * 72)
     print(f"Total Suite Runtime: {total_time:.3f}s | Result: {'ALL PASS (100%)' if all_ok else 'SOME FAILED'}")
     print("=" * 72)

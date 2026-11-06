@@ -1,0 +1,31 @@
+capability:
+  id: interface-design
+  name: Interface Design
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: hamzzaqureshi-gravidex/ui-ux-max
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [design intelligence, UX guidelines, framework palettes]
+    integration_type: merged
+  - source_id: dickwu-apple-design/apple-design
+    repository: https://github.com/dickwu/apple-design-skill.git
+    upstream_commit: ff4ebddf0488598723a82bfdce1afb04de0b1c44
+    contribution: [Apple HIG review, accessibility, mobile and desktop components]
+    integration_type: reference
+  - source_id: heydamir-unslop/unslop
+    repository: https://github.com/heydamir/unslop.git
+    upstream_commit: a6f121eee5f29c2f74976b75456feae8b66afb3a
+    contribution: [9-pass redline craft pass, anti-slop guidelines]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/taste
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [creative direction dials, motion timeline choreography]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/anti-vcode
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [40-sign anti-slop diagnostic scorecard, Swiss grid discipline]
+    integration_type: extracted

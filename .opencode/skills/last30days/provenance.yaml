@@ -1,0 +1,12 @@
+capability:
+  id: last30days
+  name: last30days
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: hamzzaqureshi-gravidex/last30days
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [Real-time multi-platform temporal intelligence engine]
+    integration_type: retained

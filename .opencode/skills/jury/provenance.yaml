@@ -1,0 +1,13 @@
+capability:
+  id: jury
+  name: jury
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: juliobsz-skills/jury
+    repository: https://github.com/juliobsz/skills.git
+    upstream_commit: add880bd6ec9f5592a1482846fc0dd282c9161bc
+    contribution: [Awwwards jury scoring, blind critic model, LCP/CLS/FPS/axe/SEO automated audit]
+    integration_type: retained
+

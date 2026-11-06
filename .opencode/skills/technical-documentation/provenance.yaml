@@ -1,0 +1,36 @@
+capability:
+  id: technical-documentation
+  name: Technical Documentation
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: hamzzaqureshi-gravidex/writing-readme
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [README-driven development, 50-point scorecard]
+    integration_type: merged
+  - source_id: affaan-m-ecc/architecture-decision-records
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [numbered ADR specifications and index maintenance]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/humanizer
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [26-pattern anti-AI prose polishing]
+    integration_type: extracted
+  - source_id: affaan-m-ecc/codebase-onboarding
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [codebase architecture mapping and onboarding guides]
+    integration_type: merged
+  - source_id: affaan-m-ecc/git-workflow
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [git branching, conventional commits, PR review standards]
+    integration_type: merged
+  - source_id: affaan-m-ecc/coding-standards
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [baseline naming conventions, immutability standards]
+    integration_type: merged

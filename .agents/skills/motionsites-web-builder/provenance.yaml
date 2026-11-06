@@ -1,0 +1,13 @@
+capability:
+  id: motionsites-web-builder
+  name: motionsites-web-builder
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: motionsites-claude-skill/motionsites-web-builder
+    repository: https://github.com/Motionsites-AI/claude-skill.git
+    upstream_commit: faa30d512e3973e58675c72101a7ef42ed37ae83
+    contribution: [award-level cinematic landing pages, 40 prompt examples, media shelf, 55+ motion recipes, screenshot QA]
+    integration_type: retained
+

@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Distribution Packager for Google Antigravity Skills Suite.
+"""Distribution Packager for GraviDex Capabilities Suite.
 
-Builds clean, ready-to-share release archives and plugin bundles:
-  - dist/antigravity-skills.zip (Universal ZIP archive)
-  - dist/antigravity-skills.tar.gz (Gzip tarball)
-  - dist/antigravity-skills-pack/ (Direct Antigravity Plugin structure)
+Builds clean, self-contained, ready-to-share release archives and plugin bundles:
+  - dist/gravidex.zip (Universal ZIP archive containing all 19 capabilities + installer)
+  - dist/gravidex.tar.gz (Gzip tarball)
+  - dist/gravidex-pack/ (Direct Antigravity Plugin structure)
   - dist/checksums.sha256 (Verification checksums)
+
+Strictly excludes internal provenance archives, git clones, and governance infrastructure
+(SOURCES/, QUARANTINE/, AUDIT/, GOVERNANCE/, DEPLOYMENT/, PATCHES/, SKILLS/).
 """
 
 import hashlib
@@ -26,7 +29,22 @@ EXCLUDE_DIRS = {
     "node_modules",
     ".court",
     ".impeccable",
+    ".rigor",
+    ".artist",
     "dist",
+    "SOURCES",
+    "QUARANTINE",
+    "AUDIT",
+    "GOVERNANCE",
+    "DEPLOYMENT",
+    "PATCHES",
+    "SKILLS",
+    "bin",
+}
+
+EXCLUDE_FILES = {
+    "registry.yaml",
+    "GRAVIDEX.md",
 }
 
 EXCLUDE_EXTS = {
@@ -35,36 +53,40 @@ EXCLUDE_EXTS = {
     ".pyd",
     ".DS_Store",
     ".log",
+    ".tmp",
+    ".bak",
 }
 
 SKILLS = [
-    "court",
-    "secure-audit",
-    "anti-vcode",
-    "impeccable",
-    "steal",
-    "taste",
-    "designs",
-    "ui-ux-max",
-    "threeui",
-    "rev-engineer",
-    "logo-design",
-    "writing-readme",
-    "arena",
-    "ponytail",
+    # 8 Curated Capability Packs
+    "autonomous-agent-engineering",
+    "backend-engineering",
+    "design-systems",
+    "frontend-engineering",
+    "interface-design",
+    "quality-engineering",
+    "security-audit",
+    "technical-documentation",
+    # 11 Retained Independent Specialists
+    "agentshield",
+    "asd-ste100",
+    "awwwards",
+    "boardui",
+    "jury",
     "last30days",
+    "lemo-opuscar",
+    "motionsites-web-builder",
+    "rev-engineer",
     "scrapling",
-    "humanizer",
-    "diagram-design",
-    "socratic",
-    "rigor",
-    "sanzo-wada-colors",
+    "skillforge",
 ]
 
 CORE_FILES = [
     "README.md",
     "SHARING.md",
     "LICENSE",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
     ".gitignore",
     "install.sh",
     "install.py",
@@ -77,6 +99,8 @@ def should_include(rel_path: Path) -> bool:
     parts = set(rel_path.parts)
     if parts & EXCLUDE_DIRS:
         return False
+    if rel_path.name in EXCLUDE_FILES:
+        return False
     if rel_path.suffix in EXCLUDE_EXTS:
         return False
     if rel_path.name.startswith(".#"):
@@ -84,24 +108,64 @@ def should_include(rel_path: Path) -> bool:
     return True
 
 
+def resolve_skill_path(name: str) -> Path:
+    candidates = [
+        ROOT / "CAPABILITIES" / "curated" / name,
+        ROOT / "CAPABILITIES" / "retained-specialists" / name,
+        ROOT / ".agents" / "skills" / name,
+        ROOT / "skills" / name,
+        ROOT / name,
+    ]
+    for c in candidates:
+        if c.is_dir():
+            return c
+    return None
+
+
 def gather_files():
     files = []
-    # Core files
+    # Core public files
     for cf in CORE_FILES:
         p = ROOT / cf
         if p.is_file():
             files.append(p)
 
-    # Skill directories
-    for skill in SKILLS:
-        skill_dir = ROOT / skill
-        if skill_dir.is_dir():
-            for p in skill_dir.rglob("*"):
-                if p.is_file():
-                    rel = p.relative_to(ROOT)
-                    if should_include(rel):
-                        files.append(p)
-    return files
+    # Capability files
+    cap_dir = ROOT / "CAPABILITIES"
+    if cap_dir.is_dir():
+        for p in cap_dir.rglob("*"):
+            if p.is_file():
+                rel = p.relative_to(ROOT)
+                if should_include(rel):
+                    files.append(p)
+
+    # Workspace skills files
+    ws_skills = ROOT / ".agents" / "skills"
+    if ws_skills.is_dir():
+        for p in ws_skills.rglob("*"):
+            if p.is_file():
+                rel = p.relative_to(ROOT)
+                if should_include(rel):
+                    files.append(p)
+
+    # Test suite files
+    test_dir = ROOT / "TESTS"
+    if test_dir.is_dir():
+        for p in test_dir.rglob("*"):
+            if p.is_file():
+                rel = p.relative_to(ROOT)
+                if should_include(rel):
+                    files.append(p)
+
+    # De-duplicate files while preserving order
+    seen = set()
+    unique_files = []
+    for f in files:
+        if f not in seen:
+            seen.add(f)
+            unique_files.append(f)
+
+    return unique_files
 
 
 def make_zip(files, out_path: Path):
@@ -118,17 +182,17 @@ def make_tar(files, out_path: Path):
             tf.add(f, arcname=str(arcname))
 
 
-def make_plugin_bundle(files, plugin_dir: Path):
+def make_plugin_bundle(plugin_dir: Path):
     if plugin_dir.exists():
         shutil.rmtree(plugin_dir)
     plugin_dir.mkdir(parents=True)
 
     # Manifest for Antigravity Plugin
     manifest = {
-        "name": "antigravity-skills-pack",
-        "description": "Curated suite of 9 modular Antigravity AI coding skills",
-        "version": "1.0.0",
-        "author": "Antigravity Power User",
+        "name": "gravidex-pack",
+        "description": "Curated suite of GraviDex modular AI coding capabilities (19 skills)",
+        "version": "2.0.0",
+        "author": "GraviDex Project",
         "skills": SKILLS
     }
     with open(plugin_dir / "plugin.json", "w", encoding="utf-8") as f:
@@ -138,15 +202,15 @@ def make_plugin_bundle(files, plugin_dir: Path):
     skills_dest = plugin_dir / "skills"
     skills_dest.mkdir(parents=True)
     for skill in SKILLS:
-        src = ROOT / skill
+        src = resolve_skill_path(skill)
         dest = skills_dest / skill
-        if src.is_dir():
+        if src and src.is_dir():
             shutil.copytree(
                 src, dest,
                 ignore=shutil.ignore_patterns("__pycache__", "*.pyc", ".DS_Store", "node_modules")
             )
 
-    # Copy README and license
+    # Copy README, sharing and license
     for item in ("README.md", "SHARING.md", "LICENSE"):
         src = ROOT / item
         if src.is_file():
@@ -163,16 +227,16 @@ def compute_sha256(file_path: Path) -> str:
 
 def main():
     print("=" * 72)
-    print("       Antigravity Skills Suite - Distribution Packager")
+    print("           GraviDex Capabilities Suite - Distribution Packager")
     print("=" * 72)
 
     DIST.mkdir(parents=True, exist_ok=True)
     files = gather_files()
-    print(f"\nDiscovered {len(files)} files across {len(SKILLS)} skills.")
+    print(f"\nDiscovered {len(files)} files across {len(SKILLS)} active capabilities.")
 
-    zip_file = DIST / "antigravity-skills.zip"
-    tar_file = DIST / "antigravity-skills.tar.gz"
-    plugin_folder = DIST / "antigravity-skills-pack"
+    zip_file = DIST / "gravidex.zip"
+    tar_file = DIST / "gravidex.tar.gz"
+    plugin_folder = DIST / "gravidex-pack"
 
     print("\nBuilding universal ZIP archive...")
     make_zip(files, zip_file)
@@ -185,7 +249,7 @@ def main():
     print(f"  Created {tar_file.name} ({tar_size:.2f} MB)")
 
     print("\nBuilding Antigravity Plugin package...")
-    make_plugin_bundle(files, plugin_folder)
+    make_plugin_bundle(plugin_folder)
     print(f"  Created {plugin_folder.name}/ (Ready for ~/.gemini/config/plugins/)")
 
     # Checksums
@@ -202,13 +266,13 @@ def main():
     print("                      PACKAGE SUMMARY")
     print("=" * 72)
     print(f"Directory: {DIST}")
-    print(f"  • {zip_file.name:<28} ({zip_size:.2f} MB) -> Share via Discord/Slack/Email")
-    print(f"  • {tar_file.name:<28} ({tar_size:.2f} MB) -> Standard Unix Tarball")
-    print(f"  • {plugin_folder.name:<28} (Folder)     -> Drop into ~/.gemini/config/plugins/")
-    print(f"  • {checksum_file.name:<28} (Text)       -> Verification Hashes")
+    print(f"  - {zip_file.name:<28} ({zip_size:.2f} MB) -> Universal Zip Archive")
+    print(f"  - {tar_file.name:<28} ({tar_size:.2f} MB) -> Standard Unix Tarball")
+    print(f"  - {plugin_folder.name:<28} (Folder)     -> Drop into ~/.gemini/config/plugins/")
+    print(f"  - {checksum_file.name:<28} (Text)       -> Verification Hashes")
     print("=" * 72)
     print("\nTo share with friends:")
-    print("  1. Send them 'dist/antigravity-skills.zip'")
+    print("  1. Send them 'dist/gravidex.zip'")
     print("  2. Or publish this repository to GitHub so friends can clone or curl!")
     print()
 

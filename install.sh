@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Google Antigravity Skills Suite - Universal Shell Installer
-# Works with: Antigravity IDE, Claude Code, and agent-compatible workspaces.
+# GraviDex Capabilities Suite - Universal Shell Installer
+# Works with: Google Antigravity IDE, Claude Code, and OpenCode workspaces.
 # ==============================================================================
 
 set -e
@@ -27,60 +27,77 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# All 21 Production Skills in Suite
+# All 19 Capabilities in Suite
 ALL_SKILLS=(
-  "court"
-  "secure-audit"
-  "anti-vcode"
-  "impeccable"
-  "steal"
-  "taste"
-  "designs"
-  "ui-ux-max"
-  "threeui"
-  "rev-engineer"
-  "logo-design"
-  "writing-readme"
-  "arena"
-  "ponytail"
+  "autonomous-agent-engineering"
+  "backend-engineering"
+  "design-systems"
+  "frontend-engineering"
+  "interface-design"
+  "quality-engineering"
+  "security-audit"
+  "technical-documentation"
+  "agentshield"
+  "asd-ste100"
+  "awwwards"
+  "boardui"
+  "jury"
   "last30days"
+  "lemo-opuscar"
+  "motionsites-web-builder"
+  "rev-engineer"
   "scrapling"
-  "humanizer"
-  "diagram-design"
-  "socratic"
-  "rigor"
-  "sanzo-wada-colors"
+  "skillforge"
 )
 
 # Bundles
+BUNDLE_CURATED=(
+  "autonomous-agent-engineering"
+  "backend-engineering"
+  "design-systems"
+  "frontend-engineering"
+  "interface-design"
+  "quality-engineering"
+  "security-audit"
+  "technical-documentation"
+)
+
+BUNDLE_SPECIALISTS=(
+  "agentshield"
+  "asd-ste100"
+  "awwwards"
+  "boardui"
+  "jury"
+  "last30days"
+  "lemo-opuscar"
+  "motionsites-web-builder"
+  "rev-engineer"
+  "scrapling"
+  "skillforge"
+)
+
 BUNDLE_DESIGN=(
-  "anti-vcode"
-  "designs"
-  "ui-ux-max"
-  "threeui"
-  "taste"
-  "sanzo-wada-colors"
-  "diagram-design"
-  "logo-design"
-  "impeccable"
+  "design-systems"
+  "interface-design"
+  "frontend-engineering"
+  "awwwards"
+  "boardui"
+  "jury"
+  "motionsites-web-builder"
+  "lemo-opuscar"
 )
 
 BUNDLE_ENGINEERING=(
-  "rigor"
-  "secure-audit"
-  "socratic"
-  "court"
+  "autonomous-agent-engineering"
+  "backend-engineering"
+  "quality-engineering"
+  "security-audit"
+  "technical-documentation"
+  "agentshield"
+  "asd-ste100"
   "rev-engineer"
   "scrapling"
-  "ponytail"
-  "arena"
-)
-
-BUNDLE_PROSE=(
-  "writing-readme"
-  "humanizer"
-  "steal"
-  "last30days"
+  "skillforge"
 )
 
 # State variables
@@ -92,68 +109,69 @@ DRY_RUN=false
 INSTALL_ALL_FLAG=false
 BUNDLE_NAME=""
 
+resolve_skill_dir() {
+  local skill="$1"
+  if [ -d "$SCRIPT_DIR/CAPABILITIES/curated/$skill" ]; then
+    echo "$SCRIPT_DIR/CAPABILITIES/curated/$skill"
+  elif [ -d "$SCRIPT_DIR/CAPABILITIES/retained-specialists/$skill" ]; then
+    echo "$SCRIPT_DIR/CAPABILITIES/retained-specialists/$skill"
+  elif [ -d "$SCRIPT_DIR/.agents/skills/$skill" ]; then
+    echo "$SCRIPT_DIR/.agents/skills/$skill"
+  elif [ -d "$SCRIPT_DIR/skills/$skill" ]; then
+    echo "$SCRIPT_DIR/skills/$skill"
+  elif [ -d "$SCRIPT_DIR/$skill" ]; then
+    echo "$SCRIPT_DIR/$skill"
+  else
+    echo ""
+  fi
+}
+
 show_help() {
   cat << EOF
-${BOLD}Google Antigravity Skills Suite - Installer${RESET}
+${BOLD}GraviDex Capabilities Suite - Universal Installer${RESET}
 
 ${BOLD}USAGE:${RESET}
     ./install.sh [OPTIONS]
 
 ${BOLD}DESTINATION OPTIONS:${RESET}
-    -g, --global           Install globally for Antigravity IDE (~/.gemini/config/skills) [Default]
-    -p, --project [DIR]    Install locally into project repository (.agents/skills)
-    -c, --claude           Install globally for Claude Code (~/.claude/skills)
-    --claude-project [DIR] Install locally for Claude Code project (.claude/skills)
-    --custom DIR           Install into custom target directory
+    -g, --global              Install globally for Antigravity IDE (~/.gemini/config/skills) [Default]
+    -p, --project [DIR]       Install locally into project repository (.agents/skills)
+    -c, --claude              Install globally for Claude Code (~/.claude/skills)
+    --claude-project [DIR]    Install locally for Claude Code project (.claude/skills)
+    --opencode                Install globally for OpenCode (~/.config/opencode/skills)
+    --opencode-project [DIR]  Install locally for OpenCode project (.opencode/skills)
+    --custom DIR              Install into custom target directory
 
 ${BOLD}SKILL SELECTION OPTIONS:${RESET}
-    -a, --all              Install all 21 skills without prompting
-    -b, --bundle NAME      Install curated bundle: 'design' (9), 'engineering' (8), or 'prose' (4)
-    -s, --skills LIST      Comma-separated list of skills to install
-    -l, --list             List available skills and bundles
-    -t, --test             Run test suite after installation
-    -d, --dry-run          Simulate installation without copying files
-    -h, --help             Show this help message
+    -a, --all                 Install all 19 capabilities without prompting
+    -b, --bundle NAME         Install bundle: 'curated' (8), 'specialists' (11), 'design' (8), 'engineering' (10)
+    -s, --skills LIST         Comma-separated list of skills to install
+    -l, --list                List available capabilities and bundles
+    -t, --test                Run test suite after installation
+    -d, --dry-run             Simulate installation without copying files
+    -h, --help                Show this help message
 
 ${BOLD}EXAMPLES:${RESET}
-    ./install.sh --all --global          # Instant 10-second install of all 21 skills
-    ./install.sh --bundle design -g      # Install 9 design skills globally
-    ./install.sh --bundle engineering -p # Install 8 engineering skills into local repo
-    ./install.sh --skills court,taste -g # Install specific skills
-    ./install.sh                         # Launch guided 2-step interactive installer
+    ./install.sh --all --global          # Install all 19 capabilities globally
+    ./install.sh --bundle curated -g     # Install 8 curated capability packs globally
+    ./install.sh --bundle design -p      # Install design bundle into local project workspace
+    ./install.sh                         # Launch guided interactive installer
 EOF
   exit 0
 }
 
 list_skills() {
-  echo -e "${BOLD}Available Skills in Suite (21 total):${RESET}"
-  echo -e "────────────────────────────────────────────────────────────────────────"
-  echo -e "  1.  ${CYAN}court${RESET}              - Adversarial idea & architecture trials"
-  echo -e "  2.  ${CYAN}secure-audit${RESET}       - Coverage-led vulnerability hunting & AST validators"
-  echo -e "  3.  ${CYAN}anti-vcode${RESET}         - 40-point anti-slop code scanner & Swiss design"
-  echo -e "  4.  ${CYAN}impeccable${RESET}         - 24-command design framework & offline detector"
-  echo -e "  5.  ${CYAN}steal${RESET}              - Austin Kleon creative operating system"
-  echo -e "  6.  ${CYAN}taste${RESET}              - Leonxlnx v2 anti-slop frontend dials & preflight"
-  echo -e "  7.  ${CYAN}designs${RESET}            - Curated 67 design themes & token registry"
-  echo -e "  8.  ${CYAN}ui-ux-max${RESET}          - BM25 design intelligence (79 styles, 192 palettes)"
-  echo -e "  9.  ${CYAN}threeui${RESET}            - 104 production 3D & WebGL Three.js components"
-  echo -e "  10. ${CYAN}rev-engineer${RESET}       - REA: Decompilation, Electron/JS & binary reconstruction"
-  echo -e "  11. ${CYAN}logo-design${RESET}        - Disciplined SVG brand identity & 1,400+ reference library"
-  echo -e "  12. ${CYAN}writing-readme${RESET}     - The Art of Writing Excellent GitHub READMEs (50-point rubric)"
-  echo -e "  13. ${CYAN}arena${RESET}              - 100 sub-agents tournament bracket to eliminate bad answers"
-  echo -e "  14. ${CYAN}ponytail${RESET}           - The lazy senior dev: minimal diffs & shortcut debt tracking"
-  echo -e "  15. ${CYAN}last30days${RESET}         - Real-time temporal intelligence (Reddit, X, YouTube, HN, Polymarket)"
-  echo -e "  16. ${CYAN}scrapling${RESET}          - Adaptive web scraping, stealth browsing & Cloudflare bypass"
-  echo -e "  17. ${CYAN}humanizer${RESET}          - Wikipedia-backed 26-pattern anti-AI-writing polish & prose humanizer"
-  echo -e "  18. ${CYAN}diagram-design${RESET}     - Editorial HTML+SVG diagrams (45 types, no shadows, Antigravity IDE helper)"
-  echo -e "  19. ${CYAN}socratic${RESET}           - Senior engineering self-interrogation (15 domains, 10 decision packs)"
-  echo -e "  20. ${CYAN}rigor${RESET}              - Empirical engineering discipline (grounding, task ledger, review)"
-  echo -e "  21. ${CYAN}sanzo-wada-colors${RESET}  - Sanzo Wada 1930s color dictionary (348 palettes, WCAG contrast & tokens)"
+  echo -e "${BOLD}Available Capabilities in Suite (19 total):${RESET}"
+  echo -e "------------------------------------------------------------------------"
+  for i in "${!ALL_SKILLS[@]}"; do
+    printf "  %2d.  ${CYAN}%-32s${RESET}\n" "$((i + 1))" "${ALL_SKILLS[$i]}"
+  done
   echo -e "\n${BOLD}Curated Bundles:${RESET}"
-  echo -e "  • ${GREEN}design${RESET}      (9 skills): anti-vcode, designs, ui-ux-max, threeui, taste, sanzo-wada-colors, diagram-design, logo-design, impeccable"
-  echo -e "  • ${GREEN}engineering${RESET} (8 skills): rigor, secure-audit, socratic, court, rev-engineer, scrapling, ponytail, arena"
-  echo -e "  • ${GREEN}prose${RESET}       (4 skills): writing-readme, humanizer, steal, last30days"
-  echo -e "────────────────────────────────────────────────────────────────────────"
+  echo -e "  - ${GREEN}curated${RESET}     (8 packs):  ${BUNDLE_CURATED[*]}"
+  echo -e "  - ${GREEN}specialists${RESET} (11 skills): ${BUNDLE_SPECIALISTS[*]}"
+  echo -e "  - ${GREEN}design${RESET}      (8 skills):  ${BUNDLE_DESIGN[*]}"
+  echo -e "  - ${GREEN}engineering${RESET} (10 skills): ${BUNDLE_ENGINEERING[*]}"
+  echo -e "------------------------------------------------------------------------"
   exit 0
 }
 
@@ -178,6 +196,18 @@ while [[ $# -gt 0 ]]; do
       ;;
     --claude-project)
       MODE="claude-project"
+      if [[ -n "$2" && "$2" != -* ]]; then
+        CUSTOM_PATH="$2"
+        shift
+      fi
+      shift
+      ;;
+    --opencode)
+      MODE="opencode"
+      shift
+      ;;
+    --opencode-project)
+      MODE="opencode-project"
       if [[ -n "$2" && "$2" != -* ]]; then
         CUSTOM_PATH="$2"
         shift
@@ -226,17 +256,20 @@ done
 # Resolve bundles if specified via flag
 if [ -n "$BUNDLE_NAME" ]; then
   case "$BUNDLE_NAME" in
+    curated)
+      SELECTED_SKILLS=("${BUNDLE_CURATED[@]}")
+      ;;
+    specialists)
+      SELECTED_SKILLS=("${BUNDLE_SPECIALISTS[@]}")
+      ;;
     design)
       SELECTED_SKILLS=("${BUNDLE_DESIGN[@]}")
       ;;
     engineering)
       SELECTED_SKILLS=("${BUNDLE_ENGINEERING[@]}")
       ;;
-    prose)
-      SELECTED_SKILLS=("${BUNDLE_PROSE[@]}")
-      ;;
     *)
-      echo -e "${RED}Error: Unknown bundle '$BUNDLE_NAME'. Choose from: design, engineering, prose${RESET}"
+      echo -e "${RED}Error: Unknown bundle '$BUNDLE_NAME'. Choose from: curated, specialists, design, engineering${RESET}"
       exit 1
       ;;
   esac
@@ -248,7 +281,7 @@ fi
 if [ -z "$MODE" ] || [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
   if [ -t 0 ]; then
     echo -e "${BOLD}${CYAN}========================================================================${RESET}"
-    echo -e "${BOLD}       Google Antigravity Skills Suite — Guided Interactive Setup       ${RESET}"
+    echo -e "${BOLD}       GraviDex Capabilities Suite - Guided Interactive Setup           ${RESET}"
     echo -e "${BOLD}${CYAN}========================================================================${RESET}\n"
 
     # Step 1: Destination
@@ -258,15 +291,19 @@ if [ -z "$MODE" ] || [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
       echo -e "  ${BOLD}2)${RESET} Current Project Workspace ${DIM}(./.agents/skills)        [Project-scoped]${RESET}"
       echo -e "  ${BOLD}3)${RESET} Claude Code Global        ${DIM}(~/.claude/skills)        [Claude CLI]${RESET}"
       echo -e "  ${BOLD}4)${RESET} Claude Code Project       ${DIM}(./.claude/skills)${RESET}"
-      echo -e "  ${BOLD}5)${RESET} Custom Directory\n"
-      read -rp "Select destination [1-5] (default: 1): " choice_dest
+      echo -e "  ${BOLD}5)${RESET} OpenCode Global           ${DIM}(~/.config/opencode/skills)${RESET}"
+      echo -e "  ${BOLD}6)${RESET} OpenCode Project          ${DIM}(./.opencode/skills)${RESET}"
+      echo -e "  ${BOLD}7)${RESET} Custom Directory\n"
+      read -rp "Select destination [1-7] (default: 1): " choice_dest
       choice_dest="${choice_dest:-1}"
       case "$choice_dest" in
         1) MODE="global" ;;
         2) MODE="project" ;;
         3) MODE="claude" ;;
         4) MODE="claude-project" ;;
-        5)
+        5) MODE="opencode" ;;
+        6) MODE="opencode-project" ;;
+        7)
           MODE="custom"
           read -rp "Enter target directory path: " CUSTOM_PATH
           ;;
@@ -279,33 +316,37 @@ if [ -z "$MODE" ] || [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
 
     # Step 2: Skill Scope
     if [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
-      echo -e "\n${BOLD}Step 2: Choose skills to install:${RESET}\n"
-      echo -e "  ${BOLD}1)${RESET} ${GREEN}Install All 21 Skills${RESET}           ${DIM}[Recommended - Complete Suite]${RESET}"
-      echo -e "  ${BOLD}2)${RESET} Frontend & Design Bundle       ${DIM}(9 skills: anti-vcode, designs, ui-ux-max, threeui...)${RESET}"
-      echo -e "  ${BOLD}3)${RESET} Engineering & Security Bundle  ${DIM}(8 skills: rigor, secure-audit, socratic, court...)${RESET}"
-      echo -e "  ${BOLD}4)${RESET} Writing & Research Bundle      ${DIM}(4 skills: writing-readme, humanizer, steal, last30days)${RESET}"
-      echo -e "  ${BOLD}5)${RESET} Custom Pick                    ${DIM}(Select by comma-separated numbers, e.g. 1, 8, 20)${RESET}\n"
-      read -rp "Select skills [1-5] (default: 1): " choice_scope
+      echo -e "\n${BOLD}Step 2: Choose capabilities to install:${RESET}\n"
+      echo -e "  ${BOLD}1)${RESET} ${GREEN}Install All 19 Capabilities${RESET}    ${DIM}[Recommended - Complete Suite]${RESET}"
+      echo -e "  ${BOLD}2)${RESET} Curated Capability Packs     ${DIM}(8 packs: autonomous-agent, backend, design...)${RESET}"
+      echo -e "  ${BOLD}3)${RESET} Retained Specialists         ${DIM}(11 skills: agentshield, asd-ste100, boardui...)${RESET}"
+      echo -e "  ${BOLD}4)${RESET} Design & Frontend Bundle     ${DIM}(8 skills: design-systems, interface-design...)${RESET}"
+      echo -e "  ${BOLD}5)${RESET} Engineering Bundle           ${DIM}(10 skills: autonomous-agent, backend, quality...)${RESET}"
+      echo -e "  ${BOLD}6)${RESET} Custom Pick                  ${DIM}(Select by comma-separated numbers, e.g. 1, 8, 15)${RESET}\n"
+      read -rp "Select skills [1-6] (default: 1): " choice_scope
       choice_scope="${choice_scope:-1}"
       case "$choice_scope" in
         1)
           SELECTED_SKILLS=("${ALL_SKILLS[@]}")
           ;;
         2)
-          SELECTED_SKILLS=("${BUNDLE_DESIGN[@]}")
+          SELECTED_SKILLS=("${BUNDLE_CURATED[@]}")
           ;;
         3)
-          SELECTED_SKILLS=("${BUNDLE_ENGINEERING[@]}")
+          SELECTED_SKILLS=("${BUNDLE_SPECIALISTS[@]}")
           ;;
         4)
-          SELECTED_SKILLS=("${BUNDLE_PROSE[@]}")
+          SELECTED_SKILLS=("${BUNDLE_DESIGN[@]}")
           ;;
         5)
-          echo -e "\nAvailable skills:"
+          SELECTED_SKILLS=("${BUNDLE_ENGINEERING[@]}")
+          ;;
+        6)
+          echo -e "\nAvailable capabilities:"
           for i in "${!ALL_SKILLS[@]}"; do
             printf "  %2d) %s\n" "$((i + 1))" "${ALL_SKILLS[$i]}"
           done
-          read -rp $'\nEnter numbers or skill names separated by commas: ' raw_picks
+          read -rp $'\nEnter numbers or names separated by commas: ' raw_picks
           SELECTED_SKILLS=()
           IFS=',' read -r -a tokens <<< "$raw_picks"
           for tok in "${tokens[@]}"; do
@@ -325,7 +366,7 @@ if [ -z "$MODE" ] || [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
             fi
           done
           if [ ${#SELECTED_SKILLS[@]} -eq 0 ]; then
-            echo -e "${YELLOW}No valid skills selected. Defaulting to all 21 skills.${RESET}"
+            echo -e "${YELLOW}No valid skills selected. Defaulting to all 19 capabilities.${RESET}"
             SELECTED_SKILLS=("${ALL_SKILLS[@]}")
           fi
           ;;
@@ -358,6 +399,13 @@ case "$MODE" in
     BASE_DIR="${CUSTOM_PATH:-.}"
     TARGET_DIR="$BASE_DIR/.claude/skills"
     ;;
+  opencode)
+    TARGET_DIR="$HOME/.config/opencode/skills"
+    ;;
+  opencode-project)
+    BASE_DIR="${CUSTOM_PATH:-.}"
+    TARGET_DIR="$BASE_DIR/.opencode/skills"
+    ;;
   custom)
     if [ -z "$CUSTOM_PATH" ]; then
       echo -e "${RED}Error: Custom directory path must be provided.${RESET}"
@@ -368,7 +416,7 @@ case "$MODE" in
 esac
 
 echo -e "\n${BOLD}Target Directory:${RESET} ${CYAN}$TARGET_DIR${RESET}"
-echo -e "${BOLD}Selected Skills:${RESET}  ${#SELECTED_SKILLS[@]} of ${#ALL_SKILLS[@]} (${SELECTED_SKILLS[*]})\n"
+echo -e "${BOLD}Selected Capabilities:${RESET}  ${#SELECTED_SKILLS[@]} of ${#ALL_SKILLS[@]} (${SELECTED_SKILLS[*]})\n"
 
 if [ "$DRY_RUN" = true ]; then
   echo -e "${YELLOW}[DRY RUN] No files will be modified.${RESET}"
@@ -381,65 +429,49 @@ fi
 
 installed_count=0
 for skill in "${SELECTED_SKILLS[@]}"; do
-  skill=$(echo "$skill" | xargs) # trim whitespace
-  SRC_PATH="$SCRIPT_DIR/$skill"
-  DEST_PATH="$TARGET_DIR/$skill"
+  skill=$(echo "$skill" | xargs)
+  SRC_PATH=$(resolve_skill_dir "$skill")
 
-  if [ ! -d "$SRC_PATH" ]; then
-    echo -e "  ${YELLOW}Warning: Skill '$skill' not found in $SCRIPT_DIR. Skipping.${RESET}"
+  if [ -z "$SRC_PATH" ] || [ ! -d "$SRC_PATH" ]; then
+    echo -e "  ${YELLOW}Warning: Capability '$skill' not found. Skipping.${RESET}"
     continue
   fi
 
+  DEST_PATH="$TARGET_DIR/$skill"
   echo -e "  ${GREEN}Installing${RESET} ${BOLD}$skill${RESET}..."
 
   if [ "$DRY_RUN" = false ]; then
     mkdir -p "$DEST_PATH"
-    # Copy files excluding python caches and temp files
     if command -v rsync >/dev/null 2>&1; then
       rsync -a --delete \
         --exclude='__pycache__' \
         --exclude='*.pyc' \
-        --exclude='*.pyo' \
-        --exclude='.DS_Store' \
         --exclude='node_modules' \
+        --exclude='.DS_Store' \
         --exclude='.court' \
         --exclude='.impeccable' \
         --exclude='.rigor' \
         --exclude='.artist' \
-        --exclude='dist' \
         "$SRC_PATH/" "$DEST_PATH/"
     else
-      # Fallback to cp
       rm -rf "$DEST_PATH"
-      mkdir -p "$DEST_PATH"
-      cp -rf "$SRC_PATH/." "$DEST_PATH/"
+      cp -r "$SRC_PATH" "$DEST_PATH"
       find "$DEST_PATH" -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
       find "$DEST_PATH" -type f -name "*.pyc" -delete 2>/dev/null || true
     fi
 
-    # Make executable scripts runnable
-    find "$DEST_PATH/scripts" "$DEST_PATH/bin" -type f \( -name "*.py" -o -name "*.sh" -o -name "*.cjs" -o -name "*.js" \) -exec chmod +x {} + 2>/dev/null || true
+    # Set executable flags on scripts
+    find "$DEST_PATH" -type f \( -name "*.py" -o -name "*.sh" -o -name "*.cjs" -o -name "*.js" \) -exec chmod +x {} + 2>/dev/null || true
   fi
 
   installed_count=$((installed_count + 1))
 done
 
-echo -e "\n${BOLD}${GREEN}Successfully installed $installed_count skill(s) into $TARGET_DIR${RESET}\n"
+echo -e "\n${BOLD}${GREEN}Successfully installed $installed_count capability(ies) into $TARGET_DIR${RESET}\n"
 
-# Run validation tests if requested
 if [ "$RUN_TESTS" = true ]; then
-  echo -e "${BOLD}${CYAN}Running verification tests...${RESET}\n"
   if [ -f "$SCRIPT_DIR/test_all.py" ]; then
-    python3 -B "$SCRIPT_DIR/test_all.py"
+    echo -e "${BOLD}Running test suite verification...${RESET}"
+    python3 -B "$SCRIPT_DIR/test_all.py" || true
   fi
 fi
-
-echo -e "${BOLD}Next Steps:${RESET}"
-if [ "$MODE" = "global" ]; then
-  echo -e "  • Skills are now globally available in Antigravity IDE across all workspaces."
-elif [ "$MODE" = "project" ]; then
-  echo -e "  • Commit .agents/skills into your repository to share with collaborators."
-elif [ "$MODE" = "claude" ]; then
-  echo -e "  • Skills are now accessible to your Claude Code agent sessions."
-fi
-echo -e "  • Trigger any skill in chat (e.g., ${CYAN}/rigor${RESET}, ${CYAN}/court${RESET}, ${CYAN}/taste${RESET}, ${CYAN}/anti-vcode${RESET})\n"

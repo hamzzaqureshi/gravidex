@@ -1,0 +1,12 @@
+capability:
+  id: scrapling
+  name: scrapling
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: hamzzaqureshi-gravidex/scrapling
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [Adaptive web scraping, stealth browsing, HTTP/3, anti-bot bypass]
+    integration_type: retained

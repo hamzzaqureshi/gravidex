@@ -23,7 +23,7 @@ desktop.ini
 *.bak
 *.diff
 
-# Antigravity & Agent runtime state (workspaces & scratch)
+# Agent runtime state (workspaces & scratch)
 .court/
 .impeccable/
 .rigor/
@@ -40,3 +40,16 @@ build/
 .venv/
 env/
 venv/
+
+# Internal GraviDex Provenance & Governance System (Layer A & Governance)
+# Kept local for provenance, audit, and drift-rebuilding; excluded from public skills repo
+SOURCES/
+QUARANTINE/
+AUDIT/
+GOVERNANCE/
+DEPLOYMENT/
+PATCHES/
+SKILLS/
+registry.yaml
+GRAVIDEX.md
+bin/

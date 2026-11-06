@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cross-Platform Installer for Google Antigravity Skills Suite.
+"""Cross-Platform Installer for GraviDex Capabilities Suite.
 
 Works on Linux, macOS, and Windows.
 Supports:
@@ -7,6 +7,8 @@ Supports:
   - Antigravity IDE Project (.agents/skills)
   - Claude Code Global (~/.claude/skills)
   - Claude Code Project (.claude/skills)
+  - OpenCode Global (~/.config/opencode/skills)
+  - OpenCode Project (.opencode/skills)
   - Custom target paths
 """
 
@@ -17,41 +19,74 @@ import shutil
 import subprocess
 import sys
 
+# Active GraviDex Capabilities (8 Curated Packs + 11 Retained Specialists)
 SKILLS = [
-    ("court", "Adversarial idea & architecture trials"),
-    ("secure-audit", "Coverage-led vulnerability hunting & AST validators"),
-    ("anti-vcode", "40-point anti-slop code scanner & Swiss design"),
-    ("impeccable", "24-command design framework & offline detector"),
-    ("steal", "Austin Kleon creative operating system"),
-    ("taste", "Leonxlnx v2 anti-slop frontend dials & preflight"),
-    ("designs", "Curated 67 design themes & token registry"),
-    ("ui-ux-max", "BM25 design intelligence (79 styles, 192 palettes)"),
-    ("threeui", "104 production 3D & WebGL Three.js components"),
-    ("rev-engineer", "REA: Decompilation, Electron/JS & binary reconstruction"),
-    ("logo-design", "Disciplined SVG brand identity & 1,400+ reference library"),
-    ("writing-readme", "The Art of Writing Excellent GitHub READMEs (50-point rubric & 5 archetypes)"),
-    ("arena", "100 sub-agents tournament bracket to eliminate bad answers"),
-    ("ponytail", "The lazy senior dev: minimal diffs, zero YAGNI bloat, and shortcut debt tracking"),
-    ("last30days", "Real-time temporal intelligence (Reddit, X, YouTube, HN, Polymarket) + CrowdPulse fast-lane"),
-    ("scrapling", "Adaptive web scraping, stealth browsing, Cloudflare bypass & concurrent spiders"),
-    ("humanizer", "Wikipedia-backed 26-pattern anti-AI-writing polish & prose humanizer"),
-    ("diagram-design", "Editorial HTML+SVG diagrams (45 types, no shadows, zero Mermaid slop, Antigravity IDE helper)"),
-    ("socratic", "Senior engineering self-interrogation (15 domains, 10 decision packs, MVP/Prod/Enterprise gates)"),
-    ("rigor", "Empirical engineering discipline (grounding, task ledger, cross-model review & completion gates)"),
-    ("sanzo-wada-colors", "Sanzo Wada 1930s color dictionary (348 palettes, 159 pigments, WCAG contrast & CSS tokens)"),
+    ("autonomous-agent-engineering", "Core agent engineering: Ponytail minimal diffs, Socratic gates, Court & Arena deliberation, Model Router"),
+    ("backend-engineering", "Production REST APIs, Express/Next.js routes, cross-language typed error boundaries, and MCP servers"),
+    ("design-systems", "Design tokens, TypeUI 67 themes, Sanzo Wada historical palettes, SVG brand identity, and editorial diagrams"),
+    ("frontend-engineering", "React/Next.js component patterns, render optimization, Three.js WebGL scenes, and Playwright browser QA"),
+    ("interface-design", "Apple HIG craft, 22-framework UI/UX guidelines, 9-pass anti-slop redline, and Swiss typography"),
+    ("quality-engineering", "Test-driven development (TDD, 80%+ coverage), empirical verification gates (Rigor), and formal eval harnesses"),
+    ("security-audit", "OWASP Top 10 hunting, coverage ledgers, AST security analysis, and static code reviews"),
+    ("technical-documentation", "README-driven development (50-point rubric), Architectural Decision Records (ADRs), onboarding guides, git workflows"),
+    ("agentshield", "Security auditor for AI agent harnesses, MCP configurations, hook safety, and prompt injection detection"),
+    ("asd-ste100", "Simplified Technical English (Issue 9) & Karpathy 80% Pragmatic Mode: zero-ambiguity agent instructions and linter"),
+    ("awwwards", "Award-caliber website builder from one-line prompt: art direction, WebGL, page transitions, browser QA"),
+    ("boardui", "React design system for agentic interfaces: 69 source components, 400+ semantic tokens, React Aria, Tailwind CSS v4"),
+    ("jury", "Objective website scoring the way an Awwwards jury would: blind critic model, LCP/CLS/FPS/a11y audits, ranked fixes"),
+    ("last30days", "Real-time cross-platform social consensus, crowd pulse, and temporal research engine"),
+    ("lemo-opuscar", "Algorithmic film directing and production in code: 67 styles, deterministic rendering, TTS voice, procedural audio"),
+    ("motionsites-web-builder", "Award-level cinematic landing pages: 40 prompt examples, media shelf, 55+ motion recipes, screenshot QA"),
+    ("rev-engineer", "Reverse engineering target router and deconstruction tools for native, web, and packaged binaries"),
+    ("scrapling", "Adaptive web scraping, stealth browsing, Cloudflare Turnstile bypass, and concurrent spiders"),
+    ("skillforge", "Autonomous agent skill lifecycle management, specification generation, regression testing, and doctor"),
 ]
 
 BUNDLES = {
+    "curated": [
+        "autonomous-agent-engineering",
+        "backend-engineering",
+        "design-systems",
+        "frontend-engineering",
+        "interface-design",
+        "quality-engineering",
+        "security-audit",
+        "technical-documentation",
+    ],
+    "specialists": [
+        "agentshield",
+        "asd-ste100",
+        "awwwards",
+        "boardui",
+        "jury",
+        "last30days",
+        "lemo-opuscar",
+        "motionsites-web-builder",
+        "rev-engineer",
+        "scrapling",
+        "skillforge",
+    ],
     "design": [
-        "anti-vcode", "designs", "ui-ux-max", "threeui", "taste",
-        "sanzo-wada-colors", "diagram-design", "logo-design", "impeccable"
+        "design-systems",
+        "interface-design",
+        "frontend-engineering",
+        "awwwards",
+        "boardui",
+        "jury",
+        "motionsites-web-builder",
+        "lemo-opuscar",
     ],
     "engineering": [
-        "rigor", "secure-audit", "socratic", "court",
-        "rev-engineer", "scrapling", "ponytail", "arena"
-    ],
-    "prose": [
-        "writing-readme", "humanizer", "steal", "last30days"
+        "autonomous-agent-engineering",
+        "backend-engineering",
+        "quality-engineering",
+        "security-audit",
+        "technical-documentation",
+        "agentshield",
+        "asd-ste100",
+        "rev-engineer",
+        "scrapling",
+        "skillforge",
     ],
 }
 
@@ -63,16 +98,33 @@ IGNORE_PATTERNS = shutil.ignore_patterns(
 )
 
 
+def resolve_skill_source(name: str) -> Path:
+    candidates = [
+        SCRIPT_DIR / "CAPABILITIES" / "curated" / name,
+        SCRIPT_DIR / "CAPABILITIES" / "retained-specialists" / name,
+        SCRIPT_DIR / ".agents" / "skills" / name,
+        SCRIPT_DIR / ".claude" / "skills" / name,
+        SCRIPT_DIR / ".opencode" / "skills" / name,
+        SCRIPT_DIR / "skills" / name,
+        SCRIPT_DIR / name,
+    ]
+    for c in candidates:
+        if c.is_dir():
+            return c
+    return None
+
+
 def list_skills():
-    print(f"\nAvailable Skills ({len(SKILLS)} total):")
-    print("─" * 70)
+    print(f"\nAvailable Capabilities ({len(SKILLS)} total):")
+    print("-" * 72)
     for idx, (name, desc) in enumerate(SKILLS, 1):
-        print(f"  {idx:>2}. {name:<22} - {desc}")
+        print(f"  {idx:>2}. {name:<30} - {desc}")
     print("\nCurated Bundles:")
-    print("  • design       (9 skills: anti-vcode, designs, ui-ux-max, threeui, taste, ...)")
-    print("  • engineering  (8 skills: rigor, secure-audit, socratic, court, rev-engineer, ...)")
-    print("  • prose        (4 skills: writing-readme, humanizer, steal, last30days)")
-    print("─" * 70)
+    print(f"  - curated     (8 packs): {', '.join(BUNDLES['curated'])}")
+    print(f"  - specialists (11 skills): {', '.join(BUNDLES['specialists'])}")
+    print(f"  - design      (8 skills): {', '.join(BUNDLES['design'])}")
+    print(f"  - engineering (10 skills): {', '.join(BUNDLES['engineering'])}")
+    print("-" * 72)
     sys.exit(0)
 
 
@@ -98,7 +150,7 @@ def copy_skill(src: Path, dest: Path, dry_run: bool = False):
 def prompt_selection(all_names):
     """Interactive selector for target directory and skills."""
     print("=" * 72)
-    print("       Google Antigravity Skills Suite — Guided Installer")
+    print("       GraviDex Capabilities Suite - Guided Installer")
     print("=" * 72)
 
     # 1. Target Directory
@@ -107,9 +159,11 @@ def prompt_selection(all_names):
     print("  2) Current Project Workspace (./.agents/skills)        [Project-scoped]")
     print("  3) Claude Code Global        (~/.claude/skills)        [Claude CLI]")
     print("  4) Claude Code Project       (./.claude/skills)")
-    print("  5) Custom Directory\n")
+    print("  5) OpenCode Global           (~/.config/opencode/skills)")
+    print("  6) OpenCode Project          (./.opencode/skills)")
+    print("  7) Custom Directory\n")
 
-    t_choice = input("Select destination [1-5] (default: 1): ").strip() or "1"
+    t_choice = input("Select destination [1-7] (default: 1): ").strip() or "1"
     home = Path.home()
 
     if t_choice == "1":
@@ -121,6 +175,10 @@ def prompt_selection(all_names):
     elif t_choice == "4":
         target_dir = Path(".").resolve() / ".claude" / "skills"
     elif t_choice == "5":
+        target_dir = home / ".config" / "opencode" / "skills"
+    elif t_choice == "6":
+        target_dir = Path(".").resolve() / ".opencode" / "skills"
+    elif t_choice == "7":
         custom_input = input("Enter custom path: ").strip()
         if not custom_input:
             print("Error: Target path cannot be empty.", file=sys.stderr)
@@ -130,25 +188,28 @@ def prompt_selection(all_names):
         target_dir = home / ".gemini" / "config" / "skills"
 
     # 2. Scope Selection
-    print("\nStep 2: Choose skills to install:")
-    print("  1) Install All 21 Skills [Recommended - Complete Toolkit]")
-    print("  2) Frontend & Design Bundle (9 skills: anti-vcode, designs, ui-ux-max, threeui...)")
-    print("  3) Engineering & Security Bundle (8 skills: rigor, secure-audit, socratic, court...)")
-    print("  4) Writing & Research Bundle (4 skills: writing-readme, humanizer, steal...)")
-    print("  5) Custom Pick (select by numbers e.g. 1, 8, 20)\n")
+    print("\nStep 2: Choose capabilities to install:")
+    print("  1) Install All 19 Capabilities [Recommended - Complete Suite]")
+    print("  2) Curated Capability Packs    (8 packs: autonomous-agent, backend, design, frontend...)")
+    print("  3) Retained Specialists        (11 skills: agentshield, asd-ste100, boardui, jury...)")
+    print("  4) Design & Frontend Bundle    (8 skills: design-systems, interface-design, boardui...)")
+    print("  5) Engineering Bundle          (10 skills: autonomous-agent, backend, quality, security...)")
+    print("  6) Custom Pick                 (select by numbers e.g. 1, 8, 15)\n")
 
-    s_choice = input("Select skills [1-5] (default: 1): ").strip() or "1"
+    s_choice = input("Select skills [1-6] (default: 1): ").strip() or "1"
 
     if s_choice == "1":
         selected = all_names
     elif s_choice == "2":
-        selected = BUNDLES["design"]
+        selected = BUNDLES["curated"]
     elif s_choice == "3":
-        selected = BUNDLES["engineering"]
+        selected = BUNDLES["specialists"]
     elif s_choice == "4":
-        selected = BUNDLES["prose"]
+        selected = BUNDLES["design"]
     elif s_choice == "5":
-        print("\nAvailable skills:")
+        selected = BUNDLES["engineering"]
+    elif s_choice == "6":
+        print("\nAvailable capabilities:")
         for idx, (name, _) in enumerate(SKILLS, 1):
             print(f"  {idx:>2}) {name}")
         raw_picks = input("\nEnter numbers or names separated by commas: ").strip()
@@ -176,7 +237,7 @@ def prompt_selection(all_names):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Install Antigravity Skills Suite locally or globally."
+        description="Install GraviDex Capabilities Suite locally or globally."
     )
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
@@ -196,17 +257,25 @@ def main():
         help="Install locally for Claude Code project (.claude/skills)"
     )
     group.add_argument(
+        "--opencode", action="store_true",
+        help="Install globally for OpenCode (~/.config/opencode/skills)"
+    )
+    group.add_argument(
+        "--opencode-project", nargs="?", const=".", metavar="DIR",
+        help="Install locally for OpenCode project (.opencode/skills)"
+    )
+    group.add_argument(
         "--custom", metavar="DIR",
         help="Install into custom destination path"
     )
 
     parser.add_argument(
         "-a", "--all", action="store_true",
-        help="Install all 21 skills without prompting"
+        help="Install all 19 capabilities without prompting"
     )
     parser.add_argument(
-        "-b", "--bundle", choices=["design", "engineering", "prose"],
-        help="Install a curated bundle of skills"
+        "-b", "--bundle", choices=["curated", "specialists", "design", "engineering"],
+        help="Install a curated bundle of capabilities"
     )
     parser.add_argument(
         "-s", "--skills", metavar="LIST",
@@ -214,7 +283,7 @@ def main():
     )
     parser.add_argument(
         "-l", "--list", action="store_true",
-        help="List available skills and bundles"
+        help="List available capabilities and bundles"
     )
     parser.add_argument(
         "-t", "--test", action="store_true",
@@ -257,6 +326,10 @@ def main():
         target_dir = home / ".claude" / "skills"
     elif args.claude_project:
         target_dir = Path(args.claude_project).resolve() / ".claude" / "skills"
+    elif args.opencode:
+        target_dir = home / ".config" / "opencode" / "skills"
+    elif args.opencode_project:
+        target_dir = Path(args.opencode_project).resolve() / ".opencode" / "skills"
     elif args.custom:
         target_dir = Path(args.custom).resolve()
 
@@ -285,22 +358,22 @@ def main():
 
     installed_count = 0
     for name in selected:
-        src = SCRIPT_DIR / name
-        dest = target_dir / name
-        if not src.is_dir():
-            print(f"  Warning: Skipping missing skill: {name}")
+        src = resolve_skill_source(name)
+        if not src or not src.is_dir():
+            print(f"  Warning: Skipping missing capability: {name}")
             continue
+        dest = target_dir / name
         print(f"  Installing {name}...")
         copy_skill(src, dest, dry_run=args.dry_run)
         installed_count += 1
 
-    print(f"\nSuccessfully installed {installed_count} skill(s) into {target_dir}\n")
+    print(f"\nSuccessfully installed {installed_count} capability(ies) into {target_dir}\n")
 
     if args.test:
-        print("Running test suite verification...")
         test_script = SCRIPT_DIR / "test_all.py"
         if test_script.is_file():
-            subprocess.run([sys.executable, "-B", str(test_script)])
+            print("Running test suite verification...")
+            subprocess.run([sys.executable, "-B", str(test_script)], check=False)
 
 
 if __name__ == "__main__":

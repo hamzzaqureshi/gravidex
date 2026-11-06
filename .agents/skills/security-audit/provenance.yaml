@@ -1,0 +1,16 @@
+capability:
+  id: security-audit
+  name: Security Audit
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: hamzzaqureshi-gravidex/secure-audit
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [6-phase security review, vulnerability findings, report generation]
+    integration_type: merged
+  - source_id: affaan-m-ecc/security-review
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [code-authoring security review workflow, OWASP checklist]
+    integration_type: merged

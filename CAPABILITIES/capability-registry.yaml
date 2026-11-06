@@ -1,0 +1,139 @@
+version: "1.0.0"
+last_updated: "2026-11-06T19:50:00Z"
+total_capabilities: 19
+curated_packs_count: 8
+retained_specialists_count: 11
+capabilities:
+  - id: autonomous-agent-engineering
+    name: "autonomous-agent-engineering"
+    type: curated-pack
+    description: "Core discipline, orchestration, and decision-making for autonomous AI coding agents. Enforces minimal diffs (Ponytail Engine), silent self-interrogation across 14 engineering domains (Socratic), multi..."
+    canonical_path: CAPABILITIES/curated/autonomous-agent-engineering
+    sources_count: 11
+    status: candidate
+  - id: backend-engineering
+    name: "backend-engineering"
+    type: curated-pack
+    description: "Architect and build production backend services, APIs, and agent connectors. Covers REST API design, Express/Next.js API routes, robust error handling across TypeScript/Python/Go, and Model Context Pr..."
+    canonical_path: CAPABILITIES/curated/backend-engineering
+    sources_count: 4
+    status: candidate
+  - id: design-systems
+    name: "design-systems"
+    type: curated-pack
+    description: "Construct and maintain coherent design token systems, aesthetic theme registries, historical Japanese palettes, brand identity marks, and editorial diagrams. Combines 67 design system themes, Sanzo Wa..."
+    canonical_path: CAPABILITIES/curated/design-systems
+    sources_count: 4
+    status: candidate
+  - id: frontend-engineering
+    name: "frontend-engineering"
+    type: curated-pack
+    description: "Build and maintain production-grade web applications. Covers React/Next.js component architecture, state management, render performance optimization, Three.js WebGL rendering, and Playwright UI browse..."
+    canonical_path: CAPABILITIES/curated/frontend-engineering
+    sources_count: 3
+    status: candidate
+  - id: interface-design
+    name: "interface-design"
+    type: curated-pack
+    description: "Design and critique production user interfaces across web, mobile, and desktop. Combines UI/UX guidelines across 22 frameworks, Apple Human Interface Guidelines (HIG), 9-pass anti-slop redline craft t..."
+    canonical_path: CAPABILITIES/curated/interface-design
+    sources_count: 5
+    status: candidate
+  - id: quality-engineering
+    name: "quality-engineering"
+    type: curated-pack
+    description: "Empirical quality assurance, automated testing, and verification discipline for AI coding agents. Enforces test-driven development (TDD) with 80%+ coverage, Playwright E2E automation, formal evaluatio..."
+    canonical_path: CAPABILITIES/curated/quality-engineering
+    sources_count: 6
+    status: candidate
+  - id: security-audit
+    name: "security-audit"
+    type: curated-pack
+    description: "Perform comprehensive security reviews and vulnerability assessments across codebases, APIs, and microservices. Covers OWASP Top 10 detection, input sanitization, authentication/authorization validati..."
+    canonical_path: CAPABILITIES/curated/security-audit
+    sources_count: 2
+    status: candidate
+  - id: technical-documentation
+    name: "technical-documentation"
+    type: curated-pack
+    description: "Author and maintain professional technical documentation, repository READMEs, Architectural Decision Records (ADRs), codebase onboarding guides, and Git collaboration workflows. Enforces README-driven..."
+    canonical_path: CAPABILITIES/curated/technical-documentation
+    sources_count: 6
+    status: candidate
+  - id: agentshield
+    name: "agentshield"
+    type: retained-specialist
+    description: ">..."
+    canonical_path: CAPABILITIES/retained-specialists/agentshield
+    sources_count: 1
+    status: candidate
+  - id: last30days
+    name: "last30days"
+    type: retained-specialist
+    description: "Research what people actually say about any topic in the last 30 days. Pulls posts and engagement from Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub, and the web. Includes a doctor healt..."
+    canonical_path: CAPABILITIES/retained-specialists/last30days
+    sources_count: 1
+    status: candidate
+  - id: rev-engineer
+    name: "rev-engineer"
+    type: retained-specialist
+    description: "Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decom..."
+    canonical_path: CAPABILITIES/retained-specialists/rev-engineer
+    sources_count: 1
+    status: candidate
+  - id: scrapling
+    name: "scrapling"
+    type: retained-specialist
+    description: "High-performance web scraping and stealth crawling framework with HTTP/3, TLS fingerprint impersonation, Cloudflare Turnstile bypass, concurrent spiders, adaptive element parsing, and clean RAG markdo..."
+    canonical_path: CAPABILITIES/retained-specialists/scrapling
+    sources_count: 1
+    status: candidate
+  - id: skillforge
+    name: "skillforge"
+    type: retained-specialist
+    description: "Use when creating, improving, finding, or auditing agent skills - the user says 'create a skill', 'do I have a skill for X', 'improve the X skill', 'which skill should I use', asks whether a skill exi..."
+    canonical_path: CAPABILITIES/retained-specialists/skillforge
+    sources_count: 1
+    status: candidate
+  - id: motionsites-web-builder
+    name: "motionsites-web-builder"
+    type: retained-specialist
+    description: "Build award-level, cinematic websites, landing pages and hero sections, or detailed prompts for Lovable, Bolt and v0, using top MotionSites designs, real media and a screenshot-and-fix loop."
+    canonical_path: CAPABILITIES/retained-specialists/motionsites-web-builder
+    sources_count: 1
+    status: candidate
+  - id: awwwards
+    name: "awwwards"
+    type: retained-specialist
+    description: "Build award-caliber websites from a one-line prompt. Uses Awwwards Site of the Day bar (concept, art direction, typography, motion choreography, WebGL, page transitions, browser QA)."
+    canonical_path: CAPABILITIES/retained-specialists/awwwards
+    sources_count: 1
+    status: candidate
+  - id: jury
+    name: "jury"
+    type: retained-specialist
+    description: "Score any website the way an Awwwards jury would, from evidence alone (LCP, CLS, FPS, axe, keyboard focus, hover feedback, SEO audit, blind critic model, ranked fixes)."
+    canonical_path: CAPABILITIES/retained-specialists/jury
+    sources_count: 1
+    status: candidate
+  - id: boardui
+    name: "boardui"
+    type: retained-specialist
+    description: "React design system for agentic interfaces. Build dashboards and AI products with 69 source components, 400+ semantic tokens, React Aria accessibility, Tailwind CSS v4, RTL/direction support, and agent design rules."
+    canonical_path: CAPABILITIES/retained-specialists/boardui
+    sources_count: 1
+    status: candidate
+  - id: lemo-opuscar
+    name: "lemo-opuscar"
+    type: retained-specialist
+    description: "Direct and produce short films made entirely in code across 67 styles (Canvas, WebGL, 2D/3D). Features algorithmic frame-by-frame rendering, Kokoro TTS voice, procedural audio, and director guidelines."
+    canonical_path: CAPABILITIES/retained-specialists/lemo-opuscar
+    sources_count: 1
+    status: candidate
+  - id: asd-ste100
+    name: "asd-ste100"
+    type: retained-specialist
+    description: "Use when English text must be parsed without ambiguity by AI agents or downstream systems (tool descriptions, error messages, inter-agent instructions, system prompts, schemas, ADRs) or when explaining technical concepts with minimum cognitive load. Enforces ASD-STE100 (Simplified Technical English, Issue 9) or Andrej Karpathy's 80% Pragmatic Mode: short sentences, active voice, approved vocabulary, max 3-word noun clusters, no progressive/passive forms, and 4 cognitive modalities (text, Mermaid diagrams, interactive HTML, video scripts)."
+    canonical_path: CAPABILITIES/retained-specialists/asd-ste100
+    sources_count: 2
+    status: candidate

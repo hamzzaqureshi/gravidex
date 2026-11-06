@@ -1,0 +1,12 @@
+capability:
+  id: agentshield
+  name: agentshield
+  version: 1.0.0
+  status: candidate
+  type: retained-specialist
+sources:
+  - source_id: affaan-m-agentshield/agentshield
+    repository: https://github.com/affaan-m/agentshield.git
+    upstream_commit: b0891303bdcd6037376a94263d45cfd2ff3dfb98
+    contribution: [AI agent harness configuration security auditor and permissions lockdown]
+    integration_type: retained

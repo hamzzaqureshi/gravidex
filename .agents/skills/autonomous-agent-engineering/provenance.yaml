@@ -1,0 +1,61 @@
+capability:
+  id: autonomous-agent-engineering
+  name: Autonomous Agent Engineering
+  version: 1.0.0
+  status: candidate
+sources:
+  - source_id: hamzzaqureshi-gravidex/ponytail
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [minimal diff discipline, YAGNI, standard library reuse]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/socratic
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [silent self-interrogation across 14 engineering domains]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/court
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [adversarial court deliberation]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/arena
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [bracket tournament deliberation]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/model-router
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [multi-model routing and 429 failover cascade]
+    integration_type: merged
+  - source_id: hamzzaqureshi-gravidex/impeccable
+    repository: https://github.com/hamzzaqureshi/gravidex.git
+    upstream_commit: initial-release
+    contribution: [24-command design lifecycle framework]
+    integration_type: merged
+  - source_id: affaan-m-ecc/unified-memory
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [durable agent memory vault]
+    integration_type: merged
+  - source_id: affaan-m-ecc/agent-introspection-debugging
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [structured agent self-debugging]
+    integration_type: merged
+  - source_id: affaan-m-ecc/context-budget
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [context budget monitoring]
+    integration_type: extracted
+  - source_id: affaan-m-ecc/intent-driven-development
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [acceptance criteria scoping]
+    integration_type: merged
+  - source_id: affaan-m-ecc/plan-canvas
+    repository: https://github.com/affaan-m/ECC.git
+    upstream_commit: b38be6a7f6350964d59328b52f0624e1d1d552d1
+    contribution: [browser plan review canvas]
+    integration_type: extracted
