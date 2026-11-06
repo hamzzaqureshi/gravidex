@@ -5,6 +5,28 @@ The format is based on Keep a Changelog.
 
 ---
 
+## [2.1.0] - 2026-11-06
+
+### Capabilities Expansion & Distribution Architecture
+- **Active Capabilities Suite (19 Active Capabilities):**
+  - Expanded from 13 to 19 active capabilities (8 Curated Capability Packs + 11 Retained Independent Specialists).
+  - Integrated 6 new Retained Specialists:
+    - `asd-ste100`: Simplified Technical English (Issue 9) & Karpathy 80% Pragmatic Mode, deterministic standard library linter (`ste_lint.py`), and offline dictionary lookup (`ste_lookup.py`).
+    - `boardui`: React design system for agentic dashboards (69 source components, 400+ semantic tokens, RTL support).
+    - `awwwards`: Award-caliber site builder, art direction, and WebGL animation engine.
+    - `jury`: Objective blind-critic website scoring against Awwwards juror standards.
+    - `motionsites-web-builder`: Cinematic motion recipes, media shelf, and Playwright screenshot QA loop.
+    - `lemo-opuscar`: 67-style algorithmic film directing, Kokoro TTS voice, and procedural audio.
+- **Unified Test Harness:**
+  - Expanded to 29 parallel test suites with high-performance sandboxing.
+  - Added public repository checkout resiliency for CI runners and clean installations.
+- **Packaging & Documentation:**
+  - Standardized release packaging via `package.py` producing `gravidex.zip` (6.89 MB), `gravidex.tar.gz` (6.36 MB), and Antigravity plugin drop-in `gravidex-pack/`.
+  - Achieved 50/50 on the Writing README Quality Scorecard and 100/100 on the Humanizer Prose Audit.
+  - Verified 100% passing GitHub Actions CI across Python 3.10, 3.11, 3.12, and 3.13.
+
+---
+
 ## [2.0.0] - 2026-11-05
 
 ### Capability Consolidation & Source Preservation Architecture
