@@ -174,8 +174,12 @@ def check_capability_drift(cap: dict, source_index: dict, verbose: bool = False)
         raw_repo_dir = SOURCES_DIR / "repositories" / slug
         if not raw_repo_dir.exists():
             # Check prefix match in repositories
-            matched = [d for d in (SOURCES_DIR / "repositories").iterdir() if d.is_dir() and (slug in d.name or d.name in slug)]
-            raw_repo_dir = matched[0] if matched else None
+            repos_dir = SOURCES_DIR / "repositories"
+            if repos_dir.is_dir():
+                matched = [d for d in repos_dir.iterdir() if d.is_dir() and (slug in d.name or d.name in slug)]
+                raw_repo_dir = matched[0] if matched else None
+            else:
+                raw_repo_dir = None
 
         if not raw_repo_dir or not raw_repo_dir.exists():
             result["details"].append(f"Source repository snapshot not verified: {repo_id}")
@@ -253,6 +257,12 @@ def main():
     print("=" * 72)
     print("             GRAVIDEX CAPABILITY REBUILD & DRIFT ENGINE")
     print("=" * 72)
+
+    if not SOURCES_DIR.is_dir():
+        print("Notice: SOURCES/ directory not found (public distribution checkout).")
+        print("Skipping drift evaluation against internal raw repositories.")
+        return 0
+
     print(f"Target Capabilities: {len(caps)}")
     print(f"Execution Mode: {'APPLY' if args.apply else ('REBUILD-PLAN' if args.rebuild else 'INSPECTION')}\n")
 

@@ -46,6 +46,7 @@ def parse_frontmatter(file_path: Path):
     return meta
 
 
+@unittest.skipUnless(REGISTRY_FILE.is_file(), "Internal system governance files (SKILLS/registry.yaml) not in public skills distribution")
 class TestGravidexGovernance(unittest.TestCase):
     """Test suite verifying GraviDex governance and identity requirements."""
 

@@ -42,6 +42,7 @@ SUITES = [
         "name": "gravidex-governance",
         "cmd": [PY_BIN, "-B", "-m", "unittest", "discover", "-s", "TESTS/validation"],
         "cwd": ROOT,
+        "require_file": os.path.join(ROOT, "registry.yaml"),
         "description": "Governance, Identity & Zero-Emoji Verification (8 tests)"
     },
     {
@@ -54,6 +55,7 @@ SUITES = [
         "name": "rebuild-drift-engine",
         "cmd": [PY_BIN, "-B", "scripts/rebuild-capabilities.py", "--check"],
         "cwd": ROOT,
+        "require_dir": os.path.join(ROOT, "SOURCES"),
         "description": "Three-Way Upstream Drift & Rebuild Verification"
     },
     {
@@ -223,6 +225,28 @@ def _run_single_suite(s):
             "stderr": f"Skipped: runtime binary '{binary}' not available on PATH\n",
         }
     cwd = s.get("cwd") or ROOT
+    req_file = s.get("require_file")
+    if req_file and not os.path.isfile(req_file):
+        return {
+            "name": s["name"],
+            "description": s["description"],
+            "passed": True,
+            "skipped": True,
+            "elapsed": 0.0,
+            "stdout": "",
+            "stderr": f"Skipped: requirement not found ({os.path.basename(req_file)})\n",
+        }
+    req_dir = s.get("require_dir")
+    if req_dir and not os.path.isdir(req_dir):
+        return {
+            "name": s["name"],
+            "description": s["description"],
+            "passed": True,
+            "skipped": True,
+            "elapsed": 0.0,
+            "stdout": "",
+            "stderr": f"Skipped: requirement directory not found ({os.path.basename(req_dir)})\n",
+        }
     if not os.path.isdir(cwd):
         return {
             "name": s["name"],
